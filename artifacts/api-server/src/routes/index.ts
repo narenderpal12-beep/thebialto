@@ -10,6 +10,7 @@ import galleryRouter from "./gallery";
 import amenitiesRouter from "./amenities";
 import settingsRouter from "./settings";
 import dashboardRouter from "./dashboard";
+import storageRouter from "./storage";
 
 const router: IRouter = Router();
 
@@ -24,5 +25,6 @@ router.use("/gallery", galleryRouter);
 router.use("/amenities", amenitiesRouter);
 router.use("/settings", settingsRouter);
 router.use("/dashboard", dashboardRouter);
+router.use("/storage", storageRouter);
 
 export default router;
