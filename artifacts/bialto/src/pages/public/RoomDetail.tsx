@@ -1,0 +1,1 @@
+export default function RoomDetail() { return <div className="pt-32 min-h-screen text-center"><h1 className="text-4xl font-serif">Room Detail</h1></div>; }

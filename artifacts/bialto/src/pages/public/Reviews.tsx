@@ -1,0 +1,1 @@
+export default function Reviews() { return <div className="pt-32 min-h-screen text-center"><h1 className="text-4xl font-serif">Reviews</h1></div>; }

@@ -1,0 +1,1 @@
+export default function AdminFloors() { return <div>Admin Floors</div>; }

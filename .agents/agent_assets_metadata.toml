@@ -1,0 +1,38 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "vKp0NZEzpn_-ohUETihuk"
+uri = "file://artifacts/bialto/public/images/hero-1.png"
+type = "image"
+title = "snowy mountain estate exterior"
+
+[[generated]]
+id = "vRYfqGpRlUATE4TwT3f1b"
+uri = "file://artifacts/bialto/public/images/hero-2.png"
+type = "image"
+title = "mountain estate morning"
+
+[[generated]]
+id = "odCtPi-_DkDJGwf7TNOzQ"
+uri = "file://artifacts/bialto/public/images/about-interior.png"
+type = "image"
+title = "estate interior drawing room"
+
+[[generated]]
+id = "VUev1e2zAvmhWNRw5B5ll"
+uri = "file://artifacts/bialto/public/images/about-balcony.png"
+type = "image"
+title = "balcony mountain view"
+
+[[generated]]
+id = "L8MvC5U602LqYCphZM_xv"
+uri = "file://artifacts/bialto/public/images/attr-mall-road.png"
+type = "image"
+title = "Kasauli Mall Road"
+
+[[generated]]
+id = "yeLyFu1CgGIgz8pUK2g32"
+uri = "file://artifacts/bialto/public/images/attr-church.png"
+type = "image"
+title = "Christ Church Kasauli"

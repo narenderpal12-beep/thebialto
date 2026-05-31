@@ -1,22 +1,41 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: The Bialto by Asemont Estate API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: auth
+    description: Admin authentication
+  - name: rooms
+    description: Room management
+  - name: floors
+    description: Floor management
+  - name: bookings
+    description: Booking management
+  - name: attractions
+    description: Nearby attractions
+  - name: reviews
+    description: Guest reviews
+  - name: gallery
+    description: Gallery images
+  - name: amenities
+    description: Property amenities
+  - name: settings
+    description: Website settings
+  - name: dashboard
+    description: Admin dashboard stats
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,6 +43,653 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # Auth
+  /auth/login:
+    post:
+      operationId: adminLogin
+      tags: [auth]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Invalid credentials
+
+  /auth/logout:
+    post:
+      operationId: adminLogout
+      tags: [auth]
+      summary: Admin logout
+      responses:
+        "200":
+          description: Logged out
+
+  /auth/me:
+    get:
+      operationId: getAdminMe
+      tags: [auth]
+      summary: Get current admin session
+      responses:
+        "200":
+          description: Admin info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminUser"
+        "401":
+          description: Not authenticated
+
+  # Dashboard
+  /dashboard/stats:
+    get:
+      operationId: getDashboardStats
+      tags: [dashboard]
+      summary: Get dashboard statistics
+      responses:
+        "200":
+          description: Dashboard statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardStats"
+
+  # Floors
+  /floors:
+    get:
+      operationId: getFloors
+      tags: [floors]
+      summary: List all floors
+      responses:
+        "200":
+          description: List of floors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Floor"
+    post:
+      operationId: createFloor
+      tags: [floors]
+      summary: Create a floor (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FloorInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Floor"
+
+  /floors/{id}:
+    get:
+      operationId: getFloor
+      tags: [floors]
+      summary: Get a floor with its rooms
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Floor detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Floor"
+    patch:
+      operationId: updateFloor
+      tags: [floors]
+      summary: Update a floor (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FloorUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Floor"
+    delete:
+      operationId: deleteFloor
+      tags: [floors]
+      summary: Delete a floor (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # Rooms
+  /rooms:
+    get:
+      operationId: getRooms
+      tags: [rooms]
+      summary: List all rooms
+      parameters:
+        - name: floorId
+          in: query
+          schema:
+            type: ["integer", "null"]
+        - name: available
+          in: query
+          schema:
+            type: ["boolean", "null"]
+        - name: published
+          in: query
+          schema:
+            type: ["boolean", "null"]
+      responses:
+        "200":
+          description: List of rooms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Room"
+    post:
+      operationId: createRoom
+      tags: [rooms]
+      summary: Create a room (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoomInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Room"
+
+  /rooms/{id}:
+    get:
+      operationId: getRoom
+      tags: [rooms]
+      summary: Get a room by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Room detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Room"
+    patch:
+      operationId: updateRoom
+      tags: [rooms]
+      summary: Update a room (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoomUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Room"
+    delete:
+      operationId: deleteRoom
+      tags: [rooms]
+      summary: Delete a room (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /rooms/featured:
+    get:
+      operationId: getFeaturedRooms
+      tags: [rooms]
+      summary: Get featured rooms for homepage
+      responses:
+        "200":
+          description: Featured rooms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Room"
+
+  # Bookings
+  /bookings:
+    get:
+      operationId: getBookings
+      tags: [bookings]
+      summary: List all bookings (admin)
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: ["string", "null"]
+      responses:
+        "200":
+          description: List of bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Booking"
+    post:
+      operationId: createBooking
+      tags: [bookings]
+      summary: Create a booking (public)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingInput"
+      responses:
+        "201":
+          description: Booking created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+
+  /bookings/{id}:
+    get:
+      operationId: getBooking
+      tags: [bookings]
+      summary: Get a booking
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Booking detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+    patch:
+      operationId: updateBooking
+      tags: [bookings]
+      summary: Update booking status (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+
+  # Attractions
+  /attractions:
+    get:
+      operationId: getAttractions
+      tags: [attractions]
+      summary: List attractions
+      responses:
+        "200":
+          description: Attractions list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Attraction"
+    post:
+      operationId: createAttraction
+      tags: [attractions]
+      summary: Create attraction (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttractionInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Attraction"
+
+  /attractions/{id}:
+    patch:
+      operationId: updateAttraction
+      tags: [attractions]
+      summary: Update attraction (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttractionUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Attraction"
+    delete:
+      operationId: deleteAttraction
+      tags: [attractions]
+      summary: Delete attraction (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # Reviews
+  /reviews:
+    get:
+      operationId: getReviews
+      tags: [reviews]
+      summary: List approved reviews (public) or all (admin with query)
+      parameters:
+        - name: approved
+          in: query
+          schema:
+            type: ["boolean", "null"]
+      responses:
+        "200":
+          description: Reviews list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Review"
+    post:
+      operationId: createReview
+      tags: [reviews]
+      summary: Submit a review (public)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewInput"
+      responses:
+        "201":
+          description: Review submitted (pending approval)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+
+  /reviews/{id}:
+    patch:
+      operationId: updateReview
+      tags: [reviews]
+      summary: Approve/reject review (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Review"
+    delete:
+      operationId: deleteReview
+      tags: [reviews]
+      summary: Delete review (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # Gallery
+  /gallery:
+    get:
+      operationId: getGallery
+      tags: [gallery]
+      summary: List gallery images
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: ["string", "null"]
+      responses:
+        "200":
+          description: Gallery images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GalleryImage"
+    post:
+      operationId: createGalleryImage
+      tags: [gallery]
+      summary: Add gallery image (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GalleryImageInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GalleryImage"
+
+  /gallery/{id}:
+    delete:
+      operationId: deleteGalleryImage
+      tags: [gallery]
+      summary: Delete gallery image (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # Amenities
+  /amenities:
+    get:
+      operationId: getAmenities
+      tags: [amenities]
+      summary: List amenities
+      responses:
+        "200":
+          description: Amenities list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Amenity"
+    post:
+      operationId: createAmenity
+      tags: [amenities]
+      summary: Create amenity (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AmenityInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Amenity"
+
+  /amenities/{id}:
+    patch:
+      operationId: updateAmenity
+      tags: [amenities]
+      summary: Update amenity (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AmenityUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Amenity"
+    delete:
+      operationId: deleteAmenity
+      tags: [amenities]
+      summary: Delete amenity (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  # Settings
+  /settings:
+    get:
+      operationId: getSettings
+      tags: [settings]
+      summary: Get website settings
+      responses:
+        "200":
+          description: Settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteSettings"
+    patch:
+      operationId: updateSettings
+      tags: [settings]
+      summary: Update website settings (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SiteSettingsUpdate"
+      responses:
+        "200":
+          description: Updated settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SiteSettings"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +700,506 @@ components:
       required:
         - status
 
+    LoginInput:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    AuthResponse:
+      type: object
+      required: [token, admin]
+      properties:
+        token:
+          type: string
+        admin:
+          $ref: "#/components/schemas/AdminUser"
+
+    AdminUser:
+      type: object
+      required: [id, email, name]
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        name:
+          type: string
+
+    DashboardStats:
+      type: object
+      required: [totalRooms, totalBookings, todayCheckIns, pendingBookings, pendingReviews, totalRevenue]
+      properties:
+        totalRooms:
+          type: integer
+        totalBookings:
+          type: integer
+        todayCheckIns:
+          type: integer
+        pendingBookings:
+          type: integer
+        pendingReviews:
+          type: integer
+        totalRevenue:
+          type: number
+        bookingsByStatus:
+          type: array
+          items:
+            $ref: "#/components/schemas/BookingStatusCount"
+        recentBookings:
+          type: array
+          items:
+            $ref: "#/components/schemas/Booking"
+
+    BookingStatusCount:
+      type: object
+      required: [status, count]
+      properties:
+        status:
+          type: string
+        count:
+          type: integer
+
+    Floor:
+      type: object
+      required: [id, name, floorNumber, description]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        floorNumber:
+          type: integer
+        description:
+          type: string
+        imageUrl:
+          type: ["string", "null"]
+        rooms:
+          type: array
+          items:
+            $ref: "#/components/schemas/Room"
+
+    FloorInput:
+      type: object
+      required: [name, floorNumber, description]
+      properties:
+        name:
+          type: string
+        floorNumber:
+          type: integer
+        description:
+          type: string
+        imageUrl:
+          type: ["string", "null"]
+
+    FloorUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        floorNumber:
+          type: integer
+        description:
+          type: string
+        imageUrl:
+          type: ["string", "null"]
+
+    Room:
+      type: object
+      required: [id, name, floorId, roomType, pricePerNight, capacity, description, isAvailable, isPublished]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        floorId:
+          type: integer
+        floorName:
+          type: ["string", "null"]
+        roomType:
+          type: string
+        featureImageUrl:
+          type: ["string", "null"]
+        galleryImages:
+          type: array
+          items:
+            type: string
+        pricePerNight:
+          type: number
+        capacity:
+          type: integer
+        amenities:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        isAvailable:
+          type: boolean
+        isPublished:
+          type: boolean
+        isFeatured:
+          type: boolean
+
+    RoomInput:
+      type: object
+      required: [name, floorId, roomType, pricePerNight, capacity, description]
+      properties:
+        name:
+          type: string
+        floorId:
+          type: integer
+        roomType:
+          type: string
+        featureImageUrl:
+          type: ["string", "null"]
+        galleryImages:
+          type: array
+          items:
+            type: string
+        pricePerNight:
+          type: number
+        capacity:
+          type: integer
+        amenities:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        isAvailable:
+          type: boolean
+        isPublished:
+          type: boolean
+        isFeatured:
+          type: boolean
+
+    RoomUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        floorId:
+          type: integer
+        roomType:
+          type: string
+        featureImageUrl:
+          type: ["string", "null"]
+        galleryImages:
+          type: array
+          items:
+            type: string
+        pricePerNight:
+          type: number
+        capacity:
+          type: integer
+        amenities:
+          type: array
+          items:
+            type: string
+        description:
+          type: string
+        isAvailable:
+          type: boolean
+        isPublished:
+          type: boolean
+        isFeatured:
+          type: boolean
+
+    Booking:
+      type: object
+      required: [id, guestName, guestEmail, guestPhone, checkIn, checkOut, guests, roomType, status, totalAmount, createdAt]
+      properties:
+        id:
+          type: integer
+        guestName:
+          type: string
+        guestEmail:
+          type: string
+        guestPhone:
+          type: string
+        checkIn:
+          type: string
+        checkOut:
+          type: string
+        guests:
+          type: integer
+        roomId:
+          type: ["integer", "null"]
+        roomType:
+          type: string
+        specialRequests:
+          type: ["string", "null"]
+        status:
+          type: string
+        totalAmount:
+          type: number
+        createdAt:
+          type: string
+
+    BookingInput:
+      type: object
+      required: [guestName, guestEmail, guestPhone, checkIn, checkOut, guests, roomType]
+      properties:
+        guestName:
+          type: string
+        guestEmail:
+          type: string
+        guestPhone:
+          type: string
+        checkIn:
+          type: string
+        checkOut:
+          type: string
+        guests:
+          type: integer
+        roomId:
+          type: ["integer", "null"]
+        roomType:
+          type: string
+        specialRequests:
+          type: ["string", "null"]
+
+    BookingUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+        roomId:
+          type: ["integer", "null"]
+
+    Attraction:
+      type: object
+      required: [id, name, description, distance, travelTime]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        distance:
+          type: string
+        travelTime:
+          type: string
+        imageUrl:
+          type: ["string", "null"]
+        sortOrder:
+          type: integer
+
+    AttractionInput:
+      type: object
+      required: [name, description, distance, travelTime]
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        distance:
+          type: string
+        travelTime:
+          type: string
+        imageUrl:
+          type: ["string", "null"]
+        sortOrder:
+          type: integer
+
+    AttractionUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        distance:
+          type: string
+        travelTime:
+          type: string
+        imageUrl:
+          type: ["string", "null"]
+        sortOrder:
+          type: integer
+
+    Review:
+      type: object
+      required: [id, guestName, rating, reviewText, isApproved, createdAt]
+      properties:
+        id:
+          type: integer
+        guestName:
+          type: string
+        guestLocation:
+          type: ["string", "null"]
+        guestPhoto:
+          type: ["string", "null"]
+        rating:
+          type: integer
+        reviewText:
+          type: string
+        isApproved:
+          type: boolean
+        createdAt:
+          type: string
+
+    ReviewInput:
+      type: object
+      required: [guestName, rating, reviewText]
+      properties:
+        guestName:
+          type: string
+        guestLocation:
+          type: ["string", "null"]
+        guestPhoto:
+          type: ["string", "null"]
+        rating:
+          type: integer
+        reviewText:
+          type: string
+
+    ReviewUpdate:
+      type: object
+      properties:
+        isApproved:
+          type: boolean
+
+    GalleryImage:
+      type: object
+      required: [id, imageUrl, category, title]
+      properties:
+        id:
+          type: integer
+        imageUrl:
+          type: string
+        category:
+          type: string
+        title:
+          type: string
+        sortOrder:
+          type: integer
+
+    GalleryImageInput:
+      type: object
+      required: [imageUrl, category, title]
+      properties:
+        imageUrl:
+          type: string
+        category:
+          type: string
+        title:
+          type: string
+        sortOrder:
+          type: integer
+
+    Amenity:
+      type: object
+      required: [id, name, icon, description]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        icon:
+          type: string
+        description:
+          type: string
+        sortOrder:
+          type: integer
+
+    AmenityInput:
+      type: object
+      required: [name, icon, description]
+      properties:
+        name:
+          type: string
+        icon:
+          type: string
+        description:
+          type: string
+        sortOrder:
+          type: integer
+
+    AmenityUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        icon:
+          type: string
+        description:
+          type: string
+        sortOrder:
+          type: integer
+
+    SiteSettings:
+      type: object
+      required: [id, propertyName, tagline, address, phone, email, whatsapp]
+      properties:
+        id:
+          type: integer
+        propertyName:
+          type: string
+        tagline:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        whatsapp:
+          type: string
+        logoUrl:
+          type: ["string", "null"]
+        heroImages:
+          type: array
+          items:
+            type: string
+        facebook:
+          type: ["string", "null"]
+        instagram:
+          type: ["string", "null"]
+        twitter:
+          type: ["string", "null"]
+        googleMapsEmbed:
+          type: ["string", "null"]
+        metaTitle:
+          type: ["string", "null"]
+        metaDescription:
+          type: ["string", "null"]
+
+    SiteSettingsUpdate:
+      type: object
+      properties:
+        propertyName:
+          type: string
+        tagline:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        whatsapp:
+          type: string
+        logoUrl:
+          type: ["string", "null"]
+        heroImages:
+          type: array
+          items:
+            type: string
+        facebook:
+          type: ["string", "null"]
+        instagram:
+          type: ["string", "null"]
+        twitter:
+          type: ["string", "null"]
+        googleMapsEmbed:
+          type: ["string", "null"]
+        metaTitle:
+          type: ["string", "null"]
+        metaDescription:
+          type: ["string", "null"]

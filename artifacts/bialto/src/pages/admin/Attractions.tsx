@@ -1,0 +1,1 @@
+export default function AdminAttractions() { return <div>Admin Attractions</div>; }

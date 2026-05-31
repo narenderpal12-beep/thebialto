@@ -1,0 +1,513 @@
+
+1000442033.png
+Please provide prompt for this, it should have admin login as well to maintain rooms, rooms picture main ,feature, booking option and each section 
+
+Use the following prompt with ChatGPT, Claude, Lovable, Bolt.new, Cursor AI, Windsurf, or any AI website builder to generate a complete luxury homestay website with admin panel.
+
+Luxury Homestay Website + Admin Panel Prompt
+Create a premium luxury homestay website named "The Bialto by Asemont Estate" inspired by high-end mountain resorts and boutique hotels.
+
+The design should be elegant, luxury, responsive, modern, and visually similar to premium resort websites with snowy mountain aesthetics, gold accents, dark blue backgrounds, glass effects, smooth animations, and premium typography.
+
+Technology
+Frontend: React.js / Next.js
+
+Backend: Node.js + Express
+
+Database: MySQL
+
+Authentication: JWT
+
+Admin Panel: Role-based Login
+
+Image Upload: Cloudinary or AWS S3
+
+Responsive Mobile + Tablet + Desktop
+
+Public Website Pages
+1. Home Page
+Hero Section with:
+
+Fullscreen image/video slider
+
+Snow mountain background
+
+Luxury property images
+
+Property logo
+
+Tagline:
+"Experience Luxury in the Hills of Kasauli"
+
+Buttons:
+
+Explore Estate
+
+Book Now
+
+WhatsApp
+
+Call Now
+
+Floating Buttons:
+
+WhatsApp
+
+Enquiry
+
+Call
+
+2. About Estate
+Display:
+
+Estate Story
+
+Property Overview
+
+Luxury Amenities
+
+Hospitality Information
+
+Statistics:
+
+Number of Floors
+
+Total Rooms
+
+Scenic View Points
+
+Years of Service
+
+3. Floors & Rooms
+Display all floors separately.
+
+Example:
+
+Floor 1
+Heritage Lounge
+
+Images
+
+Description
+
+Floor 2
+Premium Rooms
+
+Floor 3
+Deluxe Rooms
+
+Floor 4
+Family Suites
+
+Floor 5
+Sky Lounge & Dining
+
+Each room should contain:
+
+Room Name
+
+Room Type
+
+Floor Number
+
+Room Images
+
+Feature Image
+
+Gallery Images
+
+Capacity
+
+Price Per Night
+
+Amenities
+
+Availability Status
+
+Description
+
+Room View Page:
+
+Large Feature Image
+
+Image Gallery
+
+Room Details
+
+Pricing
+
+Book Now Button
+
+4. Amenities
+Display icons and descriptions for:
+
+Free WiFi
+
+Parking
+
+Power Backup
+
+CCTV
+
+Bonfire Area
+
+Dining Area
+
+Balcony View
+
+Room Service
+
+Housekeeping
+
+Hot Water
+
+Smart TV
+
+5. Gallery
+Categories:
+
+Estate Exterior
+
+Interior
+
+Rooms
+
+Dining
+
+Snow Views
+
+Attractions
+
+Features:
+
+Masonry Gallery
+
+Lightbox
+
+Zoom
+
+Fullscreen View
+
+6. Attractions Nearby
+Manage from admin.
+
+Fields:
+
+Attraction Name
+
+Description
+
+Distance
+
+Travel Time
+
+Location Map
+
+Images
+
+Examples:
+
+Mall Road
+
+Monkey Point
+
+Sunset Point
+
+Christ Church
+
+7. Reviews
+Guest Reviews Section
+
+Features:
+
+Star Rating
+
+Guest Name
+
+Guest Photo
+
+Review Text
+
+Approval Workflow
+
+8. Contact Page
+Display:
+
+Address
+
+Google Map
+
+Phone Numbers
+
+Email
+
+WhatsApp
+
+Enquiry Form:
+
+Name
+
+Phone
+
+Email
+
+Check-in
+
+Check-out
+
+Guests
+
+Message
+
+9. Booking System
+Booking Form:
+
+Check-In
+
+Check-Out
+
+Number of Guests
+
+Room Type
+
+Special Requests
+
+Booking Status:
+
+Pending
+
+Confirmed
+
+Checked-In
+
+Checked-Out
+
+Cancelled
+
+Automatic Email Notifications.
+
+WhatsApp Booking Notification.
+
+Admin Panel
+Create secure admin dashboard.
+
+Admin Login:
+
+Email
+
+Password
+
+Forgot Password
+
+Change Password
+
+Dashboard Statistics:
+
+Total Rooms
+
+Total Bookings
+
+Today's Check-Ins
+
+Revenue
+
+Pending Enquiries
+
+Room Management
+CRUD Operations
+
+Fields:
+
+Room Name
+
+Floor
+
+Room Category
+
+Feature Image
+
+Gallery Images
+
+Description
+
+Capacity
+
+Price
+
+Amenities
+
+Status
+
+Actions:
+
+Add Room
+
+Edit Room
+
+Delete Room
+
+Publish/Unpublish
+
+Floor Management
+Manage:
+
+Floor Name
+
+Description
+
+Images
+
+Room Assignment
+
+Gallery Management
+Upload:
+
+Single Image
+
+Multiple Images
+
+Categories
+
+Manage:
+
+Feature Images
+
+Gallery Images
+
+Booking Management
+View:
+
+All Bookings
+
+Guest Information
+
+Booking Status
+
+Actions:
+
+Confirm Booking
+
+Cancel Booking
+
+Assign Room
+
+Send Email
+
+Attraction Management
+Add/Edit/Delete:
+
+Attraction Name
+
+Description
+
+Distance
+
+Images
+
+Review Management
+Approve / Reject Reviews
+
+Manage:
+
+Guest Reviews
+
+Ratings
+
+Amenities Management
+Dynamic CRUD
+
+Add Amenities
+
+Edit Amenities
+
+Delete Amenities
+
+Website Settings
+Manage:
+
+Logo
+
+Favicon
+
+Property Name
+
+Contact Details
+
+Social Media Links
+
+WhatsApp Number
+
+SEO Settings
+
+Meta Tags
+
+Google Analytics
+
+Homepage Management
+Admin should be able to manage:
+
+Hero Slider Images
+
+Hero Videos
+
+Headings
+
+Subheadings
+
+Buttons
+
+Featured Rooms
+
+Featured Attractions
+
+Testimonials
+
+Without code changes.
+
+Advanced Features
+Dynamic Pricing
+
+Seasonal Pricing
+
+Coupon Codes
+
+Payment Gateway (Razorpay/Stripe)
+
+WhatsApp Integration
+
+Email Notifications
+
+SMS Notifications
+
+Google Maps Integration
+
+SEO Friendly URLs
+
+Blog Module
+
+Multi-language Support
+
+Dark/Light Theme
+
+Image Compression
+
+Sitemap Generation
+
+Design Requirements
+Luxury resort appearance
+
+Snowy Kasauli theme
+
+Gold and Dark Blue color palette
+
+Elegant serif headings
+
+Smooth animations
+
+Glassmorphism cards
+
+High-end hotel website feel
+
+Fully responsive
+
+Generate complete database schema, API structure, frontend pages, admin panel pages, booking workflow, and production-ready code architecture.

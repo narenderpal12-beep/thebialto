@@ -1,36 +1,56 @@
-# [Project name]
+# The Bialto by Asemont Estate
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A premium luxury homestay website with full admin panel for The Bialto estate in Kasauli, Himachal Pradesh.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/api-server run dev` — run the API server (port 8080, serves at /api)
+- `pnpm --filter @workspace/bialto run dev` — run the frontend (port 21406, serves at /)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- Required env: `DATABASE_URL` — Postgres connection string, `SESSION_SECRET` — JWT signing secret
+
+## Admin Access
+
+- URL: `/admin/login`
+- Email: `admin@bialto.com`
+- Password: `admin123`
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
+- Frontend: React + Vite, Wouter routing, Framer Motion, Tailwind CSS
 - API: Express 5
 - DB: PostgreSQL + Drizzle ORM
 - Validation: Zod (`zod/v4`), `drizzle-zod`
+- Auth: JWT (jsonwebtoken), stored in localStorage as `bialto_admin_token`
 - API codegen: Orval (from OpenAPI spec)
 - Build: esbuild (CJS bundle)
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/api-spec/openapi.yaml` — API contract (source of truth)
+- `lib/db/src/schema/` — DB schema (floors, rooms, bookings, attractions, reviews, gallery, amenities, settings, admin)
+- `artifacts/api-server/src/routes/` — Express route handlers
+- `artifacts/api-server/src/middlewares/auth.ts` — JWT auth middleware
+- `artifacts/bialto/src/` — React frontend (pages + components)
+- `lib/api-client-react/src/generated/` — Generated React Query hooks
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Dark-first design with navy/gold luxury palette; no light mode toggle needed
+- Admin auth via JWT Bearer tokens stored in localStorage; `useGetAdminMe` determines session state
+- All DB schema changes go through Drizzle (`pnpm --filter @workspace/db run push`)
+- OpenAPI contract-first: add endpoints to `openapi.yaml`, run codegen, then implement
+- Settings table uses singleton pattern (first row is always the site settings)
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Public website: Hero slider, About page, Floors & Rooms browsing, Amenities, Gallery (masonry + lightbox), Nearby Attractions, Guest Reviews with submission, Contact/Enquiry form, Booking form with room selection.
+
+Admin panel: Dashboard with stats, Room CRUD, Floor management, Booking management with status workflow, Attraction management, Review moderation (approve/reject), Gallery management, Amenities CRUD, Site settings.
 
 ## User preferences
 
@@ -38,7 +58,10 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Always run `pnpm --filter @workspace/api-spec run codegen` after changing `openapi.yaml`
+- Always run `pnpm --filter @workspace/db run push` after changing schema files
+- The `rooms/featured` route must come BEFORE `rooms/:id` in the router (already done)
+- Admin password hash uses `sha256(password + "bialto_salt")` — see `middlewares/auth.ts`
 
 ## Pointers
 

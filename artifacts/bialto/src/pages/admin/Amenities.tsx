@@ -1,0 +1,1 @@
+export default function AdminAmenities() { return <div>Admin Amenities</div>; }

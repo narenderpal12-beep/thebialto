@@ -1,0 +1,1 @@
+export default function Amenities() { return <div className="pt-32 min-h-screen text-center"><h1 className="text-4xl font-serif">Amenities</h1></div>; }
