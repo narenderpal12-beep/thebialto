@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, MessageCircle, Mail, Facebook, Instagram, Twitter, Send } from "lucide-react";
-import logoGold from "@assets/d6456c74-df9e-4207-9c0b-528151a4c565_1780252264411.png";
+import logoGold from "@assets/d6456c74-df9e-4207-9c0b-528151a4c565_1780252264411_(1)_1780337521190.png";
 
 const navLinks = [
   { name: "HOME", href: "/" },
