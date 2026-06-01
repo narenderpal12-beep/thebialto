@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone, MessageCircle, Mail, Facebook, Instagram, Twitter, Send } from "lucide-react";
+import { Menu, X, Phone, MessageCircle, Mail, Facebook, Instagram, Twitter, Send, UserCircle2, LayoutDashboard, LogIn } from "lucide-react";
 import logoGold from "@assets/d6456c74-df9e-4207-9c0b-528151a4c565_1780252264411_(1)_1780337521190.png";
 
 const navLinks = [
@@ -28,8 +28,20 @@ const quickLinks = [
 
 export function PublicLayout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loginMenuOpen, setLoginMenuOpen] = useState(false);
   const [location] = useLocation();
   const [email, setEmail] = useState("");
+  const loginRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (loginRef.current && !loginRef.current.contains(e.target as Node)) {
+        setLoginMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -61,10 +73,52 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
             })}
             <Link
               href="/book"
-              className="ml-2 text-[11px] font-medium tracking-[0.12em] border border-white/30 text-white hover:bg-white/10 transition-colors px-5 py-2 whitespace-nowrap"
+              className="ml-2 text-[11px] font-medium tracking-[0.12em] bg-primary text-[#060d1a] hover:bg-primary/90 transition-colors px-5 py-2 whitespace-nowrap font-semibold"
             >
               BOOK NOW
             </Link>
+
+            {/* Admin login dropdown */}
+            <div className="relative ml-1" ref={loginRef}>
+              <button
+                onClick={() => setLoginMenuOpen((v) => !v)}
+                className="flex items-center gap-1.5 text-white/60 hover:text-primary transition-colors p-1.5 rounded"
+                title="Admin Login"
+              >
+                <UserCircle2 className="w-5 h-5" />
+              </button>
+              <AnimatePresence>
+                {loginMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 top-full mt-2 w-48 bg-[#0d1729] border border-white/10 shadow-2xl py-1 z-50"
+                  >
+                    <div className="px-3 py-2 border-b border-white/10">
+                      <div className="text-[10px] font-semibold tracking-[0.15em] text-white/40 uppercase">Admin Access</div>
+                    </div>
+                    <Link
+                      href="/admin/login"
+                      onClick={() => setLoginMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-white/70 hover:text-primary hover:bg-white/5 transition-colors"
+                    >
+                      <LogIn className="w-4 h-4" />
+                      Admin Login
+                    </Link>
+                    <Link
+                      href="/admin"
+                      onClick={() => setLoginMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-white/70 hover:text-primary hover:bg-white/5 transition-colors"
+                    >
+                      <LayoutDashboard className="w-4 h-4" />
+                      Dashboard
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </nav>
 
           <button className="xl:hidden text-white p-2" onClick={() => setMobileMenuOpen(true)}>
@@ -105,6 +159,13 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
                 className="mt-6 text-sm font-medium tracking-[0.15em] border border-primary text-primary px-10 py-3"
               >
                 BOOK NOW
+              </Link>
+              <Link
+                href="/admin/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2 text-xs text-white/40 hover:text-white/70 transition-colors tracking-widest uppercase"
+              >
+                <LogIn className="w-3.5 h-3.5" /> Admin Login
               </Link>
             </div>
           </motion.div>

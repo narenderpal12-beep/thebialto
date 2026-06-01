@@ -269,4 +269,30 @@
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
   }
+
+  /* Booking form utilities */
+  .label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #4a5568;
+    margin-bottom: 6px;
+  }
+
+  .field {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    padding: 10px 12px;
+    font-size: 14px;
+    color: #1a2332;
+    background: white;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .field:focus {
+    border-color: hsl(var(--primary));
+  }
 }
