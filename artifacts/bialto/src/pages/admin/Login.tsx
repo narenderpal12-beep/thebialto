@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLocation } from "wouter";
-import logoGold from "@assets/d6456c74-df9e-4207-9c0b-528151a4c565_1780252264411.png";
+import logoGold from "@assets/d6456c74-df9e-4207-9c0b-528151a4c565_1780252264411_(1)_1780337521190.png";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 

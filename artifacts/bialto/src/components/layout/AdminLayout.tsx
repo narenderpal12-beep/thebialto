@@ -17,18 +17,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { useAdminLogout } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
-import logoGold from "@assets/d6456c74-df9e-4207-9c0b-528151a4c565_1780252264411.png";
+import logoGold from "@assets/d6456c74-df9e-4207-9c0b-528151a4c565_1780252264411_(1)_1780337521190.png";
 
 const adminLinks = [
-  { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { name: "Rooms", href: "/admin/rooms", icon: BedDouble },
-  { name: "Floors", href: "/admin/floors", icon: Layers },
-  { name: "Bookings", href: "/admin/bookings", icon: CalendarCheck },
-  { name: "Attractions", href: "/admin/attractions", icon: MapPin },
-  { name: "Reviews", href: "/admin/reviews", icon: Star },
-  { name: "Gallery", href: "/admin/gallery", icon: ImageIcon },
-  { name: "Amenities", href: "/admin/amenities", icon: Coffee },
-  { name: "Settings", href: "/admin/settings", icon: Settings },
+  { name: "Dashboard", href: "/admin", rel: "/", icon: LayoutDashboard },
+  { name: "Rooms", href: "/admin/rooms", rel: "/rooms", icon: BedDouble },
+  { name: "Floors", href: "/admin/floors", rel: "/floors", icon: Layers },
+  { name: "Bookings", href: "/admin/bookings", rel: "/bookings", icon: CalendarCheck },
+  { name: "Attractions", href: "/admin/attractions", rel: "/attractions", icon: MapPin },
+  { name: "Reviews", href: "/admin/reviews", rel: "/reviews", icon: Star },
+  { name: "Gallery", href: "/admin/gallery", rel: "/gallery", icon: ImageIcon },
+  { name: "Amenities", href: "/admin/amenities", rel: "/amenities", icon: Coffee },
+  { name: "Settings", href: "/admin/settings", rel: "/settings", icon: Settings },
 ];
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -54,7 +54,11 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
       <nav className="flex-1 px-4 space-y-2 overflow-y-auto">
         {adminLinks.map((link) => {
           const Icon = link.icon;
-          const isActive = location === link.href;
+          // Inside Wouter's nested /admin route, useLocation() returns relative paths
+          // e.g. "/" for /admin, "/floors" for /admin/floors
+          const isActive = link.rel === "/"
+            ? location === "/" || location === ""
+            : location === link.rel || location.startsWith(link.rel + "/");
           return (
             <Link 
               key={link.href} 

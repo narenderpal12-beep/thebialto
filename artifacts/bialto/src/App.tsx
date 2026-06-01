@@ -1,4 +1,4 @@
-import { Switch, Route, Router as WouterRouter, useLocation } from "wouter";
+import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -37,7 +37,6 @@ import AdminSettings from "@/pages/admin/Settings";
 const queryClient = new QueryClient();
 
 function ProtectedRoute({ component: Component, ...rest }: any) {
-  const [location, setLocation] = useLocation();
   const { data: admin, isLoading, error } = useGetAdminMe({
     query: {
       retry: false
@@ -45,17 +44,20 @@ function ProtectedRoute({ component: Component, ...rest }: any) {
   });
 
   useEffect(() => {
+    // Use window.location to escape Wouter's nested /admin context.
+    // setLocation() from useLocation() inside a nested Route resolves relatively,
+    // causing /admin/login to resolve to /admin/admin/login which hits NotFound.
     if (!isLoading && (error || !admin)) {
-      setLocation("/admin/login");
+      window.location.replace("/admin/login");
     }
-  }, [isLoading, error, admin, setLocation]);
+  }, [isLoading, error, admin]);
 
   if (isLoading) {
     return <div className="h-screen w-full flex items-center justify-center bg-background text-primary">Loading...</div>;
   }
 
   if (error || !admin) {
-    return null;
+    return <div className="h-screen w-full flex items-center justify-center bg-background text-primary">Redirecting...</div>;
   }
 
   return <Component {...rest} />;

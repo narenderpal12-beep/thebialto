@@ -113,7 +113,7 @@ export default function AdminSettings() {
           <div className="space-y-2">
             <Label>Hero Slider Images</Label>
             <p className="text-xs text-muted-foreground">Upload images that will rotate in the homepage hero slider.</p>
-            <MultiImageUpload value={form.heroImages ?? []} onChange={urls => set("heroImages", urls)} label="Add Hero Image" max={6} />
+            <MultiImageUpload value={form.heroImages ?? []} onChange={urls => set("heroImages", urls)} label="Add Hero Image" maxImages={6} />
           </div>
         </div>
       </Section>

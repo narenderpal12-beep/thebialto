@@ -1,0 +1,1 @@
+- [Wouter nested route redirect bug](wouter-nested-redirect.md) — setLocation() inside a nested Route resolves relatively; use window.location.replace() to escape to an absolute path.
