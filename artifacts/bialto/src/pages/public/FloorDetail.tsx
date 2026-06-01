@@ -1,13 +1,15 @@
 import { useRoute, Link } from "wouter";
 import { useGetFloor } from "@workspace/api-client-react";
 import { storageUrl } from "@/components/ui/image-upload";
-import { BedDouble, Users, IndianRupee, ArrowRight, Layers } from "lucide-react";
+import { useState } from "react";
+import { BedDouble, Users, IndianRupee, ArrowRight, UtensilsCrossed, CheckCircle2, XCircle, X, ChevronLeft, ChevronRight, Images } from "lucide-react";
 import { PageBanner } from "./About";
 
 export default function FloorDetail() {
   const [, params] = useRoute("/floors/:id");
   const id = Number(params?.id);
   const { data: floor, isLoading } = useGetFloor(id, { query: { enabled: !!id } });
+  const [lightbox, setLightbox] = useState<number | null>(null);
 
   if (isLoading) {
     return (
@@ -27,12 +29,14 @@ export default function FloorDetail() {
     );
   }
 
+  const gallery: string[] = (floor as any).galleryImages ?? [];
+
   return (
     <div className="flex flex-col pt-[70px]">
       {/* Banner */}
       <div className="relative h-72 md:h-80 overflow-hidden flex items-end">
-        {floor.imageUrl ? (
-          <img src={storageUrl(floor.imageUrl)} alt={floor.name} className="absolute inset-0 w-full h-full object-cover" />
+        {(floor as any).imageUrl ? (
+          <img src={storageUrl((floor as any).imageUrl)} alt={floor.name} className="absolute inset-0 w-full h-full object-cover" />
         ) : (
           <img src="/images/hero-1.png" alt={floor.name} className="absolute inset-0 w-full h-full object-cover" />
         )}
@@ -47,17 +51,54 @@ export default function FloorDetail() {
         </div>
       </div>
 
-      {/* Description */}
-      <section className="bg-[#f5f0e8] py-14">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="max-w-2xl">
-            <p className="text-[#4a5568] text-base leading-relaxed">{floor.description}</p>
+      {/* Info strip */}
+      <div className="bg-[#0b1220] py-4">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-wrap items-center gap-6 text-sm">
+          <div className={`flex items-center gap-2 ${(floor as any).isAvailable ? "text-green-400" : "text-red-400"}`}>
+            {(floor as any).isAvailable ? <CheckCircle2 className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}
+            {(floor as any).isAvailable ? "Rooms Available" : "Currently Fully Booked"}
           </div>
+          {(floor as any).hasKitchen && (
+            <div className="flex items-center gap-2 text-primary">
+              <UtensilsCrossed className="w-4 h-4" />
+              Kitchen Available on this Floor
+            </div>
+          )}
+          <div className="flex items-center gap-2 text-white/60">
+            <BedDouble className="w-4 h-4 text-primary" />
+            {(floor as any).rooms?.length ?? 0} Room{((floor as any).rooms?.length ?? 0) !== 1 ? "s" : ""} · All with Attached Bathroom
+          </div>
+        </div>
+      </div>
+
+      {/* Description */}
+      <section className="bg-[#f5f0e8] py-12">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <p className="text-[#4a5568] text-base leading-relaxed max-w-2xl">{floor.description}</p>
         </div>
       </section>
 
+      {/* Gallery */}
+      {gallery.length > 0 && (
+        <section className="bg-[#faf7f2] py-12">
+          <div className="max-w-7xl mx-auto px-6 md:px-12">
+            <div className="flex items-center gap-2 mb-6">
+              <Images className="w-5 h-5 text-primary" />
+              <h2 className="text-xl font-serif text-[#1a2332]">Floor Gallery</h2>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+              {gallery.map((path, i) => (
+                <button key={i} className="overflow-hidden aspect-video" onClick={() => setLightbox(i)}>
+                  <img src={storageUrl(path)} alt={`${floor.name} ${i + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Rooms */}
-      <section className="bg-[#faf7f2] py-16">
+      <section className="bg-[#f5f0e8] py-16">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="flex items-center justify-between mb-10">
             <h2 className="text-2xl md:text-3xl font-serif text-[#1a2332]">
@@ -97,6 +138,10 @@ export default function FloorDetail() {
                         <Users className="w-3.5 h-3.5" /> {room.capacity} guests
                       </div>
                     </div>
+                    <div className="mt-3 pt-3 border-t border-gray-100 flex items-center gap-3 text-xs text-[#6b7280]">
+                      <span className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-green-500" /> Attached Bathroom</span>
+                      {(floor as any).hasKitchen && <span className="flex items-center gap-1"><UtensilsCrossed className="w-3 h-3 text-primary" /> Shared Kitchen</span>}
+                    </div>
                   </div>
                 </Link>
               ))}
@@ -104,6 +149,23 @@ export default function FloorDetail() {
           )}
         </div>
       </section>
+
+      {/* Lightbox */}
+      {lightbox !== null && gallery.length > 0 && (
+        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={() => setLightbox(null)}>
+          <button className="absolute top-4 right-4 text-white/70 hover:text-white p-2" onClick={() => setLightbox(null)}>
+            <X className="w-7 h-7" />
+          </button>
+          <button className="absolute left-4 text-white/70 hover:text-white p-3" onClick={(e) => { e.stopPropagation(); setLightbox(Math.max(0, lightbox - 1)); }}>
+            <ChevronLeft className="w-9 h-9" />
+          </button>
+          <img src={storageUrl(gallery[lightbox])} alt="Gallery" className="max-h-[85vh] max-w-[90vw] object-contain" onClick={(e) => e.stopPropagation()} />
+          <button className="absolute right-4 text-white/70 hover:text-white p-3" onClick={(e) => { e.stopPropagation(); setLightbox(Math.min(gallery.length - 1, lightbox + 1)); }}>
+            <ChevronRight className="w-9 h-9" />
+          </button>
+          <div className="absolute bottom-4 text-white/50 text-sm">{lightbox + 1} / {gallery.length}</div>
+        </div>
+      )}
     </div>
   );
 }

@@ -85,6 +85,9 @@ export const GetFloorsResponseItem = zod.object({
   "floorNumber": zod.number(),
   "description": zod.string(),
   "imageUrl": zod.string().nullish(),
+  "galleryImages": zod.array(zod.string()).optional(),
+  "isAvailable": zod.boolean(),
+  "hasKitchen": zod.boolean(),
   "rooms": zod.array(zod.object({
   "id": zod.number(),
   "name": zod.string(),
@@ -112,7 +115,10 @@ export const CreateFloorBody = zod.object({
   "name": zod.string(),
   "floorNumber": zod.number(),
   "description": zod.string(),
-  "imageUrl": zod.string().nullish()
+  "imageUrl": zod.string().nullish(),
+  "galleryImages": zod.array(zod.string()).optional(),
+  "isAvailable": zod.boolean().optional(),
+  "hasKitchen": zod.boolean().optional()
 })
 
 
@@ -129,6 +135,9 @@ export const GetFloorResponse = zod.object({
   "floorNumber": zod.number(),
   "description": zod.string(),
   "imageUrl": zod.string().nullish(),
+  "galleryImages": zod.array(zod.string()).optional(),
+  "isAvailable": zod.boolean(),
+  "hasKitchen": zod.boolean(),
   "rooms": zod.array(zod.object({
   "id": zod.number(),
   "name": zod.string(),
@@ -159,7 +168,10 @@ export const UpdateFloorBody = zod.object({
   "name": zod.string().optional(),
   "floorNumber": zod.number().optional(),
   "description": zod.string().optional(),
-  "imageUrl": zod.string().nullish()
+  "imageUrl": zod.string().nullish(),
+  "galleryImages": zod.array(zod.string()).optional(),
+  "isAvailable": zod.boolean().optional(),
+  "hasKitchen": zod.boolean().optional()
 })
 
 export const UpdateFloorResponse = zod.object({
@@ -168,6 +180,9 @@ export const UpdateFloorResponse = zod.object({
   "floorNumber": zod.number(),
   "description": zod.string(),
   "imageUrl": zod.string().nullish(),
+  "galleryImages": zod.array(zod.string()).optional(),
+  "isAvailable": zod.boolean(),
+  "hasKitchen": zod.boolean(),
   "rooms": zod.array(zod.object({
   "id": zod.number(),
   "name": zod.string(),

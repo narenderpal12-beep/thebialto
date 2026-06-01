@@ -12,4 +12,7 @@ export interface FloorInput {
   description: string;
   /** @nullable */
   imageUrl?: string | null;
+  galleryImages?: string[];
+  isAvailable?: boolean;
+  hasKitchen?: boolean;
 }

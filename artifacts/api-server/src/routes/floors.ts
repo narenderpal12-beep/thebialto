@@ -16,8 +16,13 @@ router.get("/", async (_req, res) => {
 });
 
 router.post("/", requireAdmin, async (req, res) => {
-  const { name, floorNumber, description, imageUrl } = req.body;
-  const [floor] = await db.insert(floorsTable).values({ name, floorNumber, description, imageUrl }).returning();
+  const { name, floorNumber, description, imageUrl, galleryImages, isAvailable, hasKitchen } = req.body;
+  const [floor] = await db.insert(floorsTable).values({
+    name, floorNumber, description, imageUrl,
+    galleryImages: galleryImages ?? [],
+    isAvailable: isAvailable ?? true,
+    hasKitchen: hasKitchen ?? true,
+  }).returning();
   res.status(201).json({ ...floor, rooms: [] });
 });
 
@@ -31,12 +36,15 @@ router.get("/:id", async (req, res) => {
 
 router.patch("/:id", requireAdmin, async (req, res) => {
   const id = Number(req.params.id);
-  const { name, floorNumber, description, imageUrl } = req.body;
+  const { name, floorNumber, description, imageUrl, galleryImages, isAvailable, hasKitchen } = req.body;
   const updates: any = {};
   if (name !== undefined) updates.name = name;
   if (floorNumber !== undefined) updates.floorNumber = floorNumber;
   if (description !== undefined) updates.description = description;
   if (imageUrl !== undefined) updates.imageUrl = imageUrl;
+  if (galleryImages !== undefined) updates.galleryImages = galleryImages;
+  if (isAvailable !== undefined) updates.isAvailable = isAvailable;
+  if (hasKitchen !== undefined) updates.hasKitchen = hasKitchen;
   const [floor] = await db.update(floorsTable).set(updates).where(eq(floorsTable.id, id)).returning();
   if (!floor) { res.status(404).json({ error: "Not found" }); return; }
   const rooms = await db.select().from(roomsTable).where(eq(roomsTable.floorId, id));

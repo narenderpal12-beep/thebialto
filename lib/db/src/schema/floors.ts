@@ -1,4 +1,4 @@
-import { pgTable, serial, text, integer, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, integer, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
@@ -8,6 +8,9 @@ export const floorsTable = pgTable("floors", {
   floorNumber: integer("floor_number").notNull(),
   description: text("description").notNull(),
   imageUrl: text("image_url"),
+  galleryImages: text("gallery_images").array().notNull().default([]),
+  isAvailable: boolean("is_available").notNull().default(true),
+  hasKitchen: boolean("has_kitchen").notNull().default(true),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

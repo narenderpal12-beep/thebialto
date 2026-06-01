@@ -812,7 +812,7 @@ components:
 
     Floor:
       type: object
-      required: [id, name, floorNumber, description]
+      required: [id, name, floorNumber, description, isAvailable, hasKitchen]
       properties:
         id:
           type: integer
@@ -824,6 +824,14 @@ components:
           type: string
         imageUrl:
           type: ["string", "null"]
+        galleryImages:
+          type: array
+          items:
+            type: string
+        isAvailable:
+          type: boolean
+        hasKitchen:
+          type: boolean
         rooms:
           type: array
           items:
@@ -841,6 +849,14 @@ components:
           type: string
         imageUrl:
           type: ["string", "null"]
+        galleryImages:
+          type: array
+          items:
+            type: string
+        isAvailable:
+          type: boolean
+        hasKitchen:
+          type: boolean
 
     FloorUpdate:
       type: object
@@ -853,6 +869,14 @@ components:
           type: string
         imageUrl:
           type: ["string", "null"]
+        galleryImages:
+          type: array
+          items:
+            type: string
+        isAvailable:
+          type: boolean
+        hasKitchen:
+          type: boolean
 
     Room:
       type: object

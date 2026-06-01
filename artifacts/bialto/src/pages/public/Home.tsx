@@ -46,13 +46,16 @@ export default function Home() {
       {/* ══════════════════════════════════════════
           1. HERO
       ══════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex flex-col">
-        {/* Background photo */}
+      <section className="relative min-h-screen flex flex-col overflow-hidden">
+        {/* Background photo — Ken Burns zoom-pan effect */}
         <div className="absolute inset-0 z-0">
-          <img
+          <motion.img
             src="/images/hero-1.png"
             alt="The Bialto Estate"
             className="w-full h-full object-cover object-center"
+            initial={{ scale: 1.12, x: "2%" }}
+            animate={{ scale: 1.0, x: "0%" }}
+            transition={{ duration: 14, ease: "easeOut" }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#060d1a]/90 via-[#060d1a]/60 to-[#060d1a]/20" />
         </div>

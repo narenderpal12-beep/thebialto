@@ -14,5 +14,8 @@ export interface Floor {
   description: string;
   /** @nullable */
   imageUrl?: string | null;
+  galleryImages?: string[];
+  isAvailable: boolean;
+  hasKitchen: boolean;
   rooms?: Room[];
 }

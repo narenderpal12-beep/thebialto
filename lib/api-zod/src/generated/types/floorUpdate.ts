@@ -12,4 +12,7 @@ export interface FloorUpdate {
   description?: string;
   /** @nullable */
   imageUrl?: string | null;
+  galleryImages?: string[];
+  isAvailable?: boolean;
+  hasKitchen?: boolean;
 }

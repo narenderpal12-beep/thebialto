@@ -85,6 +85,9 @@ export interface Floor {
   description: string;
   /** @nullable */
   imageUrl?: string | null;
+  galleryImages?: string[];
+  isAvailable: boolean;
+  hasKitchen: boolean;
   rooms?: Room[];
 }
 
@@ -94,6 +97,9 @@ export interface FloorInput {
   description: string;
   /** @nullable */
   imageUrl?: string | null;
+  galleryImages?: string[];
+  isAvailable?: boolean;
+  hasKitchen?: boolean;
 }
 
 export interface FloorUpdate {
@@ -102,6 +108,9 @@ export interface FloorUpdate {
   description?: string;
   /** @nullable */
   imageUrl?: string | null;
+  galleryImages?: string[];
+  isAvailable?: boolean;
+  hasKitchen?: boolean;
 }
 
 export interface RoomInput {
