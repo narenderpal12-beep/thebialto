@@ -34,7 +34,8 @@ export default function AdminLogin() {
 
   const onSubmit = (data: LoginForm) => {
     loginMutation.mutate({ data }, {
-      onSuccess: () => {
+      onSuccess: (response) => {
+        localStorage.setItem("bialto_admin_token", response.token);
         queryClient.invalidateQueries();
         setLocation("/admin");
       },

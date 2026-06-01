@@ -40,6 +40,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   const handleLogout = () => {
     logout.mutate(undefined, {
       onSuccess: () => {
+        localStorage.removeItem("bialto_admin_token");
         queryClient.clear();
         // Use window.location to escape the nested /admin Router context.
         // setLocation inside a nested Route resolves relatively and would navigate to /admin/admin/login.
