@@ -25,6 +25,11 @@ router.patch("/", requireAdmin, async (req, res) => {
     "logoUrl","heroImages","facebook","instagram","twitter",
     "googleMapsEmbed","metaTitle","metaDescription",
     "primaryColor","secondaryColor","accentColor","darkMode",
+    // Homepage sections
+    "heroTagline","heroTitle","heroDescription","heroCtaText",
+    "aboutLabel","aboutTitle","aboutDescription","aboutImage","aboutCtaText",
+    "floorsSectionLabel","floorsSectionTitle",
+    "footerTagline",
   ];
   for (const f of fields) {
     if (req.body[f] !== undefined) updates[f] = req.body[f];

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import {
-  useGetFloors, useGetAmenities, useGetAttractions, useGetReviews, useGetGallery,
+  useGetFloors, useGetAmenities, useGetAttractions, useGetReviews, useGetGallery, useGetSettings,
 } from "@workspace/api-client-react";
 import { storageUrl } from "@/components/ui/image-upload";
 import {
@@ -31,6 +31,7 @@ export default function Home() {
   const { data: attractions = [] } = useGetAttractions();
   const { data: reviews = [] } = useGetReviews({ approved: true });
   const { data: gallery = [] } = useGetGallery({});
+  const { data: settings } = useGetSettings();
 
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
@@ -40,6 +41,26 @@ export default function Home() {
   const firstReview = approvedReviews[0];
   const galleryPreview = (gallery as any[]).slice(0, 4);
   const attractionsList = (attractions as any[]).slice(0, 4);
+
+  // Hero section content
+  const heroTagline = (settings as any)?.heroTagline || "Luxury Homestay in Kasauli";
+  const heroTitleRaw = (settings as any)?.heroTitle || "Experience Luxury | in the Hills of Kasauli";
+  const heroParts = heroTitleRaw.split("|").map((s: string) => s.trim());
+  const heroLine1 = heroParts[0] ?? "Experience Luxury";
+  const heroLine2 = heroParts[1] ?? "in the Hills of Kasauli";
+  const heroDescription = (settings as any)?.heroDescription || "The Bialto By Asemont Estate is a classic 5-floor luxury homestay offering breathtaking views, premium comfort and unforgettable memories.";
+  const heroCtaText = (settings as any)?.heroCtaText || "Explore the Estate";
+
+  // About section content
+  const aboutLabel = (settings as any)?.aboutLabel || "About the Estate";
+  const aboutTitle = (settings as any)?.aboutTitle || "A Timeless Escape\nSurrounded by Nature";
+  const aboutDescription = (settings as any)?.aboutDescription || "Nestled in the serene hills of Kasauli, The Bialto is where classic architecture meets modern comfort. Our estate blends beautiful landscapes, warm hospitality and world-class amenities to create the perfect getaway.";
+  const aboutCtaText = (settings as any)?.aboutCtaText || "Know More About Us";
+  const aboutImage = (settings as any)?.aboutImage;
+
+  // Floors section content
+  const floorsSectionLabel = (settings as any)?.floorsSectionLabel || "Our Estate";
+  const floorsSectionTitle = (settings as any)?.floorsSectionTitle || "Five Floors of Luxury & Comfort";
 
   return (
     <div className="flex flex-col">
@@ -72,18 +93,19 @@ export default function Home() {
               {/* Tag */}
               <div className="flex items-center gap-3 mb-5">
                 <span className="h-px w-8 bg-primary/70" />
-                <span className="text-primary text-xs font-semibold tracking-[0.22em] uppercase">Luxury Homestay in Kasauli</span>
+                <span className="text-primary text-xs font-semibold tracking-[0.22em] uppercase">{heroTagline}</span>
                 <span className="h-px w-8 bg-primary/70" />
               </div>
 
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-medium text-white leading-tight mb-5">
-                Experience Luxury<br />
-                <span className="text-white/90">in the Hills of</span>{" "}
-                <span className="text-primary">Kasauli</span>
+                {heroLine1}<br />
+                <span className="text-white/90">{heroLine2.replace(/Kasauli$/, "").trimEnd()}</span>
+                {heroLine2.endsWith("Kasauli") && <>{" "}<span className="text-primary">Kasauli</span></>}
+                {!heroLine2.endsWith("Kasauli") && heroLine2 && <span className="text-white/90"> {heroLine2}</span>}
               </h1>
 
               <p className="text-white/70 text-sm md:text-base leading-relaxed mb-8 max-w-md">
-                The Bialto By Asemont Estate is a classic 5-floor luxury homestay offering breathtaking views, premium comfort and unforgettable memories.
+                {heroDescription}
               </p>
 
               <div className="flex flex-wrap gap-3">
@@ -91,7 +113,7 @@ export default function Home() {
                   href="/about"
                   className="inline-flex items-center gap-2 bg-primary text-[#060d1a] text-xs font-semibold tracking-[0.15em] uppercase px-7 py-3.5 hover:bg-primary/90 transition-colors"
                 >
-                  Explore the Estate
+                  {heroCtaText}
                 </Link>
                 <button className="inline-flex items-center gap-2 border border-white/30 text-white text-xs font-semibold tracking-[0.15em] uppercase px-7 py-3.5 hover:bg-white/10 transition-colors">
                   <Play className="w-3.5 h-3.5" /> Watch Video
@@ -175,13 +197,15 @@ export default function Home() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Building2 className="w-4 h-4 text-primary" />
-              <span className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">About the Estate</span>
+              <span className="text-xs font-semibold tracking-[0.18em] text-primary uppercase">{aboutLabel}</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-serif text-[#1a2332] leading-snug mb-5">
-              A Timeless Escape<br />Surrounded by Nature
+              {aboutTitle.split("\n").map((line: string, i: number) => (
+                <span key={i}>{line}{i < aboutTitle.split("\n").length - 1 && <br />}</span>
+              ))}
             </h2>
             <p className="text-[#4a5568] text-sm md:text-base leading-relaxed mb-8">
-              Nestled in the serene hills of Kasauli, The Bialto is where classic architecture meets modern comfort. Our estate blends beautiful landscapes, warm hospitality and world-class amenities to create the perfect getaway.
+              {aboutDescription}
             </p>
 
             {/* Feature icons */}
@@ -205,14 +229,14 @@ export default function Home() {
               href="/about"
               className="inline-flex items-center gap-2 border border-[#1a2332] text-[#1a2332] text-xs font-semibold tracking-[0.15em] uppercase px-7 py-3 hover:bg-[#1a2332] hover:text-white transition-colors"
             >
-              Know More About Us <ArrowRight className="w-3.5 h-3.5" />
+              {aboutCtaText} <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {/* Right — image */}
           <div className="relative">
             <img
-              src="/images/about-balcony.png"
+              src={aboutImage ? storageUrl(aboutImage) : "/images/about-balcony.png"}
               alt="The Bialto Estate View"
               className="w-full h-[420px] md:h-[500px] object-cover shadow-2xl"
             />
@@ -227,8 +251,8 @@ export default function Home() {
       <section className="bg-[#faf7f2] py-20 md:py-24">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="text-center mb-12">
-            <SectionLabel>Our Estate</SectionLabel>
-            <h2 className="text-3xl md:text-4xl font-serif text-[#1a2332]">Five Floors of Luxury &amp; Comfort</h2>
+            <SectionLabel>{floorsSectionLabel}</SectionLabel>
+            <h2 className="text-3xl md:text-4xl font-serif text-[#1a2332]">{floorsSectionTitle}</h2>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">

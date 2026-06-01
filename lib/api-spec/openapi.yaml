@@ -1368,6 +1368,30 @@ components:
           type: ["string", "null"]
         darkMode:
           type: boolean
+        heroTagline:
+          type: ["string", "null"]
+        heroTitle:
+          type: ["string", "null"]
+        heroDescription:
+          type: ["string", "null"]
+        heroCtaText:
+          type: ["string", "null"]
+        aboutLabel:
+          type: ["string", "null"]
+        aboutTitle:
+          type: ["string", "null"]
+        aboutDescription:
+          type: ["string", "null"]
+        aboutImage:
+          type: ["string", "null"]
+        aboutCtaText:
+          type: ["string", "null"]
+        floorsSectionLabel:
+          type: ["string", "null"]
+        floorsSectionTitle:
+          type: ["string", "null"]
+        footerTagline:
+          type: ["string", "null"]
 
     SiteSettingsUpdate:
       type: object
@@ -1410,6 +1434,30 @@ components:
           type: ["string", "null"]
         darkMode:
           type: boolean
+        heroTagline:
+          type: ["string", "null"]
+        heroTitle:
+          type: ["string", "null"]
+        heroDescription:
+          type: ["string", "null"]
+        heroCtaText:
+          type: ["string", "null"]
+        aboutLabel:
+          type: ["string", "null"]
+        aboutTitle:
+          type: ["string", "null"]
+        aboutDescription:
+          type: ["string", "null"]
+        aboutImage:
+          type: ["string", "null"]
+        aboutCtaText:
+          type: ["string", "null"]
+        floorsSectionLabel:
+          type: ["string", "null"]
+        floorsSectionTitle:
+          type: ["string", "null"]
+        footerTagline:
+          type: ["string", "null"]
 
     Coupon:
       type: object

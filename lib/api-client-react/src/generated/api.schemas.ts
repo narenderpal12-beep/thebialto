@@ -304,6 +304,30 @@ export interface SiteSettings {
   /** @nullable */
   accentColor?: string | null;
   darkMode: boolean;
+  /** @nullable */
+  heroTagline?: string | null;
+  /** @nullable */
+  heroTitle?: string | null;
+  /** @nullable */
+  heroDescription?: string | null;
+  /** @nullable */
+  heroCtaText?: string | null;
+  /** @nullable */
+  aboutLabel?: string | null;
+  /** @nullable */
+  aboutTitle?: string | null;
+  /** @nullable */
+  aboutDescription?: string | null;
+  /** @nullable */
+  aboutImage?: string | null;
+  /** @nullable */
+  aboutCtaText?: string | null;
+  /** @nullable */
+  floorsSectionLabel?: string | null;
+  /** @nullable */
+  floorsSectionTitle?: string | null;
+  /** @nullable */
+  footerTagline?: string | null;
 }
 
 export interface SiteSettingsUpdate {
@@ -335,6 +359,30 @@ export interface SiteSettingsUpdate {
   /** @nullable */
   accentColor?: string | null;
   darkMode?: boolean;
+  /** @nullable */
+  heroTagline?: string | null;
+  /** @nullable */
+  heroTitle?: string | null;
+  /** @nullable */
+  heroDescription?: string | null;
+  /** @nullable */
+  heroCtaText?: string | null;
+  /** @nullable */
+  aboutLabel?: string | null;
+  /** @nullable */
+  aboutTitle?: string | null;
+  /** @nullable */
+  aboutDescription?: string | null;
+  /** @nullable */
+  aboutImage?: string | null;
+  /** @nullable */
+  aboutCtaText?: string | null;
+  /** @nullable */
+  floorsSectionLabel?: string | null;
+  /** @nullable */
+  floorsSectionTitle?: string | null;
+  /** @nullable */
+  footerTagline?: string | null;
 }
 
 export interface Coupon {

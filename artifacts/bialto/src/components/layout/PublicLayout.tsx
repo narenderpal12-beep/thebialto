@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, MessageCircle, Mail, Facebook, Instagram, Twitter, Send, UserCircle2, LayoutDashboard, LogIn } from "lucide-react";
+import { useGetSettings } from "@workspace/api-client-react";
+import { storageUrl } from "@/components/ui/image-upload";
 import logoGold from "@assets/d6456c74-df9e-4207-9c0b-528151a4c565_1780252264411_(1)_1780337521190.png";
 
 const navLinks = [
@@ -32,6 +34,18 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
   const [email, setEmail] = useState("");
   const loginRef = useRef<HTMLDivElement>(null);
+  const { data: settings } = useGetSettings();
+
+  const s = settings as any;
+  const logoSrc = s?.logoUrl ? storageUrl(s.logoUrl) : logoGold;
+  const footerTagline = s?.footerTagline || "A luxury homestay in Kasauli offering premium rooms, scenic views, and warm hospitality. Your perfect mountain escape.";
+  const contactAddress = s?.address || "Dochi Road, Kasauli, Himachal Pradesh, India";
+  const contactPhone = s?.phone || "+91 71176 02625";
+  const contactEmail = s?.email || "TheBialto@gmail.com";
+  const facebookHref = s?.facebook || "#";
+  const instagramHref = s?.instagram || "#";
+  const twitterHref = s?.twitter || "#";
+  const whatsappNumber = (s?.whatsapp || "+917117602625").replace(/[^0-9]/g, "");
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
@@ -53,7 +67,7 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
       <header className="fixed top-0 w-full z-50 bg-[#0b1220]/95 backdrop-blur-md border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-16 md:h-[70px]">
           <Link href="/" className="flex-shrink-0">
-            <img src={logoGold} alt="The Bialto" className="h-10 md:h-12 object-contain cursor-pointer" />
+            <img src={logoSrc} alt="The Bialto" className="h-10 md:h-12 object-contain cursor-pointer" />
           </Link>
 
           <nav className="hidden xl:flex items-center gap-6">
@@ -182,17 +196,17 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1 — Brand */}
           <div>
-            <img src={logoGold} alt="The Bialto" className="h-14 object-contain mb-4" />
+            <img src={logoSrc} alt="The Bialto" className="h-14 object-contain mb-4" />
             <p className="text-white/60 text-sm leading-relaxed mb-6">
-              A luxury homestay in Kasauli offering premium rooms, scenic views, and warm hospitality. Your perfect mountain escape.
+              {footerTagline}
             </p>
             <div className="flex gap-3">
               {[
-                { icon: Facebook, href: "#" },
-                { icon: Instagram, href: "#" },
-                { icon: Twitter, href: "#" },
+                { icon: Facebook, href: facebookHref },
+                { icon: Instagram, href: instagramHref },
+                { icon: Twitter, href: twitterHref },
               ].map(({ icon: Icon, href }, i) => (
-                <a key={i} href={href} className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-primary hover:text-primary transition-colors">
+                <a key={i} href={href} target="_blank" rel="noreferrer" className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-white/60 hover:border-primary hover:text-primary transition-colors">
                   <Icon className="w-4 h-4" />
                 </a>
               ))}
@@ -219,15 +233,15 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
             <ul className="space-y-3 text-sm text-white/60">
               <li className="flex gap-2.5">
                 <span className="text-primary mt-0.5">📍</span>
-                <span>Dochi Road, Kasauli,<br />Himachal Pradesh, India</span>
+                <span>{contactAddress}</span>
               </li>
               <li className="flex gap-2.5 items-center">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
-                <a href="tel:+917117602625" className="hover:text-primary transition-colors">+91 71176 02625</a>
+                <a href={`tel:${contactPhone.replace(/\s/g, "")}`} className="hover:text-primary transition-colors">{contactPhone}</a>
               </li>
               <li className="flex gap-2.5 items-center">
                 <Mail className="w-4 h-4 text-primary flex-shrink-0" />
-                <a href="mailto:TheBialto@gmail.com" className="hover:text-primary transition-colors">TheBialto@gmail.com</a>
+                <a href={`mailto:${contactEmail}`} className="hover:text-primary transition-colors">{contactEmail}</a>
               </li>
             </ul>
           </div>
@@ -258,9 +272,9 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
       </footer>
 
       {/* ── FLOATING CONTACT TABS (right edge) ── */}
-      <div className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-2 hidden md:flex">
+      <div className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex-col gap-2 hidden md:flex">
         <a
-          href="https://wa.me/917117602625"
+          href={`https://wa.me/${whatsappNumber}`}
           target="_blank"
           rel="noreferrer"
           className="flex items-center gap-2 bg-[#25d366] text-white text-xs font-semibold tracking-wide pl-3 pr-4 py-2.5 rounded-l-full shadow-lg hover:pl-4 transition-all duration-200"
@@ -276,7 +290,7 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
           Enquiry
         </Link>
         <a
-          href="tel:+917117602625"
+          href={`tel:${contactPhone.replace(/\s/g, "")}`}
           className="flex items-center gap-2 bg-primary text-[#0b1220] text-xs font-semibold tracking-wide pl-3 pr-4 py-2.5 rounded-l-full shadow-lg hover:pl-4 transition-all duration-200"
         >
           <Phone className="w-4 h-4 flex-shrink-0" />

@@ -840,7 +840,19 @@ export const GetSettingsResponse = zod.object({
   "primaryColor": zod.string().nullish(),
   "secondaryColor": zod.string().nullish(),
   "accentColor": zod.string().nullish(),
-  "darkMode": zod.boolean()
+  "darkMode": zod.boolean(),
+  "heroTagline": zod.string().nullish(),
+  "heroTitle": zod.string().nullish(),
+  "heroDescription": zod.string().nullish(),
+  "heroCtaText": zod.string().nullish(),
+  "aboutLabel": zod.string().nullish(),
+  "aboutTitle": zod.string().nullish(),
+  "aboutDescription": zod.string().nullish(),
+  "aboutImage": zod.string().nullish(),
+  "aboutCtaText": zod.string().nullish(),
+  "floorsSectionLabel": zod.string().nullish(),
+  "floorsSectionTitle": zod.string().nullish(),
+  "footerTagline": zod.string().nullish()
 })
 
 
@@ -865,7 +877,19 @@ export const UpdateSettingsBody = zod.object({
   "primaryColor": zod.string().nullish(),
   "secondaryColor": zod.string().nullish(),
   "accentColor": zod.string().nullish(),
-  "darkMode": zod.boolean().optional()
+  "darkMode": zod.boolean().optional(),
+  "heroTagline": zod.string().nullish(),
+  "heroTitle": zod.string().nullish(),
+  "heroDescription": zod.string().nullish(),
+  "heroCtaText": zod.string().nullish(),
+  "aboutLabel": zod.string().nullish(),
+  "aboutTitle": zod.string().nullish(),
+  "aboutDescription": zod.string().nullish(),
+  "aboutImage": zod.string().nullish(),
+  "aboutCtaText": zod.string().nullish(),
+  "floorsSectionLabel": zod.string().nullish(),
+  "floorsSectionTitle": zod.string().nullish(),
+  "footerTagline": zod.string().nullish()
 })
 
 export const UpdateSettingsResponse = zod.object({
@@ -887,7 +911,19 @@ export const UpdateSettingsResponse = zod.object({
   "primaryColor": zod.string().nullish(),
   "secondaryColor": zod.string().nullish(),
   "accentColor": zod.string().nullish(),
-  "darkMode": zod.boolean()
+  "darkMode": zod.boolean(),
+  "heroTagline": zod.string().nullish(),
+  "heroTitle": zod.string().nullish(),
+  "heroDescription": zod.string().nullish(),
+  "heroCtaText": zod.string().nullish(),
+  "aboutLabel": zod.string().nullish(),
+  "aboutTitle": zod.string().nullish(),
+  "aboutDescription": zod.string().nullish(),
+  "aboutImage": zod.string().nullish(),
+  "aboutCtaText": zod.string().nullish(),
+  "floorsSectionLabel": zod.string().nullish(),
+  "floorsSectionTitle": zod.string().nullish(),
+  "footerTagline": zod.string().nullish()
 })
 
 
