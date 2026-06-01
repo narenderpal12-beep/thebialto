@@ -1,5 +1,4 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "vKp0NZEzpn_-ohUETihuk"
@@ -36,3 +35,9 @@ id = "yeLyFu1CgGIgz8pUK2g32"
 uri = "file://artifacts/bialto/public/images/attr-church.png"
 type = "image"
 title = "Christ Church Kasauli"
+
+[[outputs]]
+id = "LI3GCzE6Ry9TyPkCOVv58"
+uri = "file://bialto_backup.sql.gz"
+type = "unspecified"
+title = "Bialto DB Backup"
