@@ -36,7 +36,9 @@ export default function AdminLogin() {
     loginMutation.mutate({ data }, {
       onSuccess: (response) => {
         localStorage.setItem("bialto_admin_token", response.token);
-        queryClient.invalidateQueries();
+        // Clear the entire cache so stale 401 errors from the pre-login
+        // visit don't instantly trigger ProtectedRoute's logout redirect.
+        queryClient.clear();
         setLocation("/admin");
       },
       onError: () => {
