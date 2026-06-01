@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { db, bookingsTable } from "@workspace/db";
+import { db, bookingsTable, couponsTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
 import { requireAdmin } from "../middlewares/auth";
+import { sendBookingNotification } from "../email";
 
 const router = Router();
 
@@ -14,12 +15,71 @@ router.get("/", requireAdmin, async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { guestName, guestEmail, guestPhone, checkIn, checkOut, guests, roomId, roomType, specialRequests } = req.body;
+  const {
+    guestName, guestEmail, guestPhone,
+    checkIn, checkOut,
+    adults, children, guests,
+    roomId, roomType, specialRequests,
+    couponCode, discountAmount, totalAmount,
+  } = req.body;
+
+  let finalCouponCode: string | null = null;
+  let finalDiscount = 0;
+
+  // Validate and apply coupon if provided
+  if (couponCode) {
+    const code = String(couponCode).toUpperCase().trim();
+    const [coupon] = await db.select().from(couponsTable).where(eq(couponsTable.code, code));
+    if (coupon && coupon.isActive && !(coupon.expiresAt && new Date(coupon.expiresAt) < new Date())
+        && !(coupon.maxUses !== null && coupon.usedCount >= coupon.maxUses)) {
+      finalCouponCode = code;
+      finalDiscount = discountAmount ?? 0;
+      // Increment usage count
+      await db.update(couponsTable).set({ usedCount: coupon.usedCount + 1 }).where(eq(couponsTable.id, coupon.id));
+    }
+  }
+
+  const totalAdults = adults ?? 1;
+  const totalChildren = children ?? 0;
+  const totalGuests = guests ?? (totalAdults + totalChildren);
+
   const [booking] = await db.insert(bookingsTable).values({
-    guestName, guestEmail, guestPhone, checkIn, checkOut,
-    guests, roomId: roomId ?? null, roomType, specialRequests: specialRequests ?? null,
-    status: "pending", totalAmount: 0,
+    guestName, guestEmail, guestPhone,
+    checkIn, checkOut,
+    adults: totalAdults,
+    children: totalChildren,
+    guests: totalGuests,
+    roomId: roomId ?? null,
+    roomType,
+    specialRequests: specialRequests ?? null,
+    couponCode: finalCouponCode,
+    discountAmount: finalDiscount,
+    status: "pending",
+    totalAmount: totalAmount ?? 0,
   }).returning();
+
+  // Calculate nights for email
+  const nights = Math.max(0, Math.round(
+    (new Date(checkOut).getTime() - new Date(checkIn).getTime()) / 86400000
+  ));
+
+  // Fire-and-forget email notification
+  sendBookingNotification({
+    guestName,
+    guestEmail,
+    guestPhone,
+    roomType,
+    checkIn,
+    checkOut,
+    adults: totalAdults,
+    children: totalChildren,
+    nights,
+    totalAmount: totalAmount ?? 0,
+    discountAmount: finalDiscount,
+    couponCode: finalCouponCode,
+    specialRequests: specialRequests ?? null,
+  }).catch(() => {});
+
   res.status(201).json({ ...booking, createdAt: booking.createdAt.toISOString() });
 });
 

@@ -7,3 +7,4 @@ export * from "./reviews";
 export * from "./gallery";
 export * from "./amenities";
 export * from "./settings";
+export * from "./coupons";

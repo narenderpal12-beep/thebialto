@@ -37,12 +37,17 @@ export interface Booking {
   guestPhone: string;
   checkIn: string;
   checkOut: string;
+  adults: number;
+  children: number;
   guests: number;
   /** @nullable */
   roomId?: number | null;
   roomType: string;
   /** @nullable */
   specialRequests?: string | null;
+  /** @nullable */
+  couponCode?: string | null;
+  discountAmount: number;
   status: string;
   totalAmount: number;
   createdAt: string;
@@ -70,7 +75,8 @@ export interface Room {
   featureImageUrl?: string | null;
   galleryImages?: string[];
   pricePerNight: number;
-  capacity: number;
+  adultCapacity: number;
+  childCapacity: number;
   amenities?: string[];
   description: string;
   isAvailable: boolean;
@@ -121,7 +127,8 @@ export interface RoomInput {
   featureImageUrl?: string | null;
   galleryImages?: string[];
   pricePerNight: number;
-  capacity: number;
+  adultCapacity: number;
+  childCapacity: number;
   amenities?: string[];
   description: string;
   isAvailable?: boolean;
@@ -137,7 +144,8 @@ export interface RoomUpdate {
   featureImageUrl?: string | null;
   galleryImages?: string[];
   pricePerNight?: number;
-  capacity?: number;
+  adultCapacity?: number;
+  childCapacity?: number;
   amenities?: string[];
   description?: string;
   isAvailable?: boolean;
@@ -151,12 +159,18 @@ export interface BookingInput {
   guestPhone: string;
   checkIn: string;
   checkOut: string;
+  adults: number;
+  children: number;
   guests: number;
   /** @nullable */
   roomId?: number | null;
   roomType: string;
   /** @nullable */
   specialRequests?: string | null;
+  /** @nullable */
+  couponCode?: string | null;
+  discountAmount?: number;
+  totalAmount?: number;
 }
 
 export interface BookingUpdate {
@@ -283,6 +297,13 @@ export interface SiteSettings {
   metaTitle?: string | null;
   /** @nullable */
   metaDescription?: string | null;
+  /** @nullable */
+  primaryColor?: string | null;
+  /** @nullable */
+  secondaryColor?: string | null;
+  /** @nullable */
+  accentColor?: string | null;
+  darkMode: boolean;
 }
 
 export interface SiteSettingsUpdate {
@@ -307,6 +328,49 @@ export interface SiteSettingsUpdate {
   metaTitle?: string | null;
   /** @nullable */
   metaDescription?: string | null;
+  /** @nullable */
+  primaryColor?: string | null;
+  /** @nullable */
+  secondaryColor?: string | null;
+  /** @nullable */
+  accentColor?: string | null;
+  darkMode?: boolean;
+}
+
+export interface Coupon {
+  id: number;
+  code: string;
+  discountType: string;
+  discountValue: number;
+  isActive: boolean;
+  /** @nullable */
+  maxUses?: number | null;
+  usedCount: number;
+  /** @nullable */
+  expiresAt?: string | null;
+  createdAt?: string;
+}
+
+export interface CouponInput {
+  code: string;
+  discountType: string;
+  discountValue: number;
+  isActive?: boolean;
+  /** @nullable */
+  maxUses?: number | null;
+  /** @nullable */
+  expiresAt?: string | null;
+}
+
+export interface CouponUpdate {
+  code?: string;
+  discountType?: string;
+  discountValue?: number;
+  isActive?: boolean;
+  /** @nullable */
+  maxUses?: number | null;
+  /** @nullable */
+  expiresAt?: string | null;
 }
 
 export interface UploadUrlRequest {

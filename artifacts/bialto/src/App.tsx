@@ -33,6 +33,8 @@ import AdminReviews from "@/pages/admin/Reviews";
 import AdminGallery from "@/pages/admin/Gallery";
 import AdminAmenities from "@/pages/admin/Amenities";
 import AdminSettings from "@/pages/admin/Settings";
+import AdminCoupons from "@/pages/admin/Coupons";
+import { ThemeApplier } from "@/components/ThemeApplier";
 
 const queryClient = new QueryClient();
 
@@ -81,6 +83,7 @@ function Router() {
             <Route path="/reviews" component={() => <ProtectedRoute component={AdminReviews} />} />
             <Route path="/gallery" component={() => <ProtectedRoute component={AdminGallery} />} />
             <Route path="/amenities" component={() => <ProtectedRoute component={AdminAmenities} />} />
+            <Route path="/coupons" component={() => <ProtectedRoute component={AdminCoupons} />} />
             <Route path="/settings" component={() => <ProtectedRoute component={AdminSettings} />} />
             <Route component={NotFound} />
           </Switch>
@@ -116,6 +119,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <ThemeApplier />
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
           <Router />
         </WouterRouter>

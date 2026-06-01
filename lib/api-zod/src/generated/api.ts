@@ -65,10 +65,14 @@ export const GetDashboardStatsResponse = zod.object({
   "guestPhone": zod.string(),
   "checkIn": zod.string(),
   "checkOut": zod.string(),
+  "adults": zod.number(),
+  "children": zod.number(),
   "guests": zod.number(),
   "roomId": zod.number().nullish(),
   "roomType": zod.string(),
   "specialRequests": zod.string().nullish(),
+  "couponCode": zod.string().nullish(),
+  "discountAmount": zod.number(),
   "status": zod.string(),
   "totalAmount": zod.number(),
   "createdAt": zod.string()
@@ -97,7 +101,8 @@ export const GetFloorsResponseItem = zod.object({
   "featureImageUrl": zod.string().nullish(),
   "galleryImages": zod.array(zod.string()).optional(),
   "pricePerNight": zod.number(),
-  "capacity": zod.number(),
+  "adultCapacity": zod.number(),
+  "childCapacity": zod.number(),
   "amenities": zod.array(zod.string()).optional(),
   "description": zod.string(),
   "isAvailable": zod.boolean(),
@@ -147,7 +152,8 @@ export const GetFloorResponse = zod.object({
   "featureImageUrl": zod.string().nullish(),
   "galleryImages": zod.array(zod.string()).optional(),
   "pricePerNight": zod.number(),
-  "capacity": zod.number(),
+  "adultCapacity": zod.number(),
+  "childCapacity": zod.number(),
   "amenities": zod.array(zod.string()).optional(),
   "description": zod.string(),
   "isAvailable": zod.boolean(),
@@ -192,7 +198,8 @@ export const UpdateFloorResponse = zod.object({
   "featureImageUrl": zod.string().nullish(),
   "galleryImages": zod.array(zod.string()).optional(),
   "pricePerNight": zod.number(),
-  "capacity": zod.number(),
+  "adultCapacity": zod.number(),
+  "childCapacity": zod.number(),
   "amenities": zod.array(zod.string()).optional(),
   "description": zod.string(),
   "isAvailable": zod.boolean(),
@@ -228,7 +235,8 @@ export const GetRoomsResponseItem = zod.object({
   "featureImageUrl": zod.string().nullish(),
   "galleryImages": zod.array(zod.string()).optional(),
   "pricePerNight": zod.number(),
-  "capacity": zod.number(),
+  "adultCapacity": zod.number(),
+  "childCapacity": zod.number(),
   "amenities": zod.array(zod.string()).optional(),
   "description": zod.string(),
   "isAvailable": zod.boolean(),
@@ -248,7 +256,8 @@ export const CreateRoomBody = zod.object({
   "featureImageUrl": zod.string().nullish(),
   "galleryImages": zod.array(zod.string()).optional(),
   "pricePerNight": zod.number(),
-  "capacity": zod.number(),
+  "adultCapacity": zod.number(),
+  "childCapacity": zod.number(),
   "amenities": zod.array(zod.string()).optional(),
   "description": zod.string(),
   "isAvailable": zod.boolean().optional(),
@@ -273,7 +282,8 @@ export const GetRoomResponse = zod.object({
   "featureImageUrl": zod.string().nullish(),
   "galleryImages": zod.array(zod.string()).optional(),
   "pricePerNight": zod.number(),
-  "capacity": zod.number(),
+  "adultCapacity": zod.number(),
+  "childCapacity": zod.number(),
   "amenities": zod.array(zod.string()).optional(),
   "description": zod.string(),
   "isAvailable": zod.boolean(),
@@ -296,7 +306,8 @@ export const UpdateRoomBody = zod.object({
   "featureImageUrl": zod.string().nullish(),
   "galleryImages": zod.array(zod.string()).optional(),
   "pricePerNight": zod.number().optional(),
-  "capacity": zod.number().optional(),
+  "adultCapacity": zod.number().optional(),
+  "childCapacity": zod.number().optional(),
   "amenities": zod.array(zod.string()).optional(),
   "description": zod.string().optional(),
   "isAvailable": zod.boolean().optional(),
@@ -313,7 +324,8 @@ export const UpdateRoomResponse = zod.object({
   "featureImageUrl": zod.string().nullish(),
   "galleryImages": zod.array(zod.string()).optional(),
   "pricePerNight": zod.number(),
-  "capacity": zod.number(),
+  "adultCapacity": zod.number(),
+  "childCapacity": zod.number(),
   "amenities": zod.array(zod.string()).optional(),
   "description": zod.string(),
   "isAvailable": zod.boolean(),
@@ -342,7 +354,8 @@ export const GetFeaturedRoomsResponseItem = zod.object({
   "featureImageUrl": zod.string().nullish(),
   "galleryImages": zod.array(zod.string()).optional(),
   "pricePerNight": zod.number(),
-  "capacity": zod.number(),
+  "adultCapacity": zod.number(),
+  "childCapacity": zod.number(),
   "amenities": zod.array(zod.string()).optional(),
   "description": zod.string(),
   "isAvailable": zod.boolean(),
@@ -366,10 +379,14 @@ export const GetBookingsResponseItem = zod.object({
   "guestPhone": zod.string(),
   "checkIn": zod.string(),
   "checkOut": zod.string(),
+  "adults": zod.number(),
+  "children": zod.number(),
   "guests": zod.number(),
   "roomId": zod.number().nullish(),
   "roomType": zod.string(),
   "specialRequests": zod.string().nullish(),
+  "couponCode": zod.string().nullish(),
+  "discountAmount": zod.number(),
   "status": zod.string(),
   "totalAmount": zod.number(),
   "createdAt": zod.string()
@@ -386,10 +403,15 @@ export const CreateBookingBody = zod.object({
   "guestPhone": zod.string(),
   "checkIn": zod.string(),
   "checkOut": zod.string(),
+  "adults": zod.number(),
+  "children": zod.number(),
   "guests": zod.number(),
   "roomId": zod.number().nullish(),
   "roomType": zod.string(),
-  "specialRequests": zod.string().nullish()
+  "specialRequests": zod.string().nullish(),
+  "couponCode": zod.string().nullish(),
+  "discountAmount": zod.number().optional(),
+  "totalAmount": zod.number().optional()
 })
 
 
@@ -407,10 +429,14 @@ export const GetBookingResponse = zod.object({
   "guestPhone": zod.string(),
   "checkIn": zod.string(),
   "checkOut": zod.string(),
+  "adults": zod.number(),
+  "children": zod.number(),
   "guests": zod.number(),
   "roomId": zod.number().nullish(),
   "roomType": zod.string(),
   "specialRequests": zod.string().nullish(),
+  "couponCode": zod.string().nullish(),
+  "discountAmount": zod.number(),
   "status": zod.string(),
   "totalAmount": zod.number(),
   "createdAt": zod.string()
@@ -436,13 +462,104 @@ export const UpdateBookingResponse = zod.object({
   "guestPhone": zod.string(),
   "checkIn": zod.string(),
   "checkOut": zod.string(),
+  "adults": zod.number(),
+  "children": zod.number(),
   "guests": zod.number(),
   "roomId": zod.number().nullish(),
   "roomType": zod.string(),
   "specialRequests": zod.string().nullish(),
+  "couponCode": zod.string().nullish(),
+  "discountAmount": zod.number(),
   "status": zod.string(),
   "totalAmount": zod.number(),
   "createdAt": zod.string()
+})
+
+
+/**
+ * @summary Validate a coupon code (public)
+ */
+export const ValidateCouponParams = zod.object({
+  "code": zod.coerce.string()
+})
+
+export const ValidateCouponResponse = zod.object({
+  "id": zod.number(),
+  "code": zod.string(),
+  "discountType": zod.string(),
+  "discountValue": zod.number(),
+  "isActive": zod.boolean(),
+  "maxUses": zod.number().nullish(),
+  "usedCount": zod.number(),
+  "expiresAt": zod.string().nullish(),
+  "createdAt": zod.string().optional()
+})
+
+
+/**
+ * @summary List all coupons (admin)
+ */
+export const GetCouponsResponseItem = zod.object({
+  "id": zod.number(),
+  "code": zod.string(),
+  "discountType": zod.string(),
+  "discountValue": zod.number(),
+  "isActive": zod.boolean(),
+  "maxUses": zod.number().nullish(),
+  "usedCount": zod.number(),
+  "expiresAt": zod.string().nullish(),
+  "createdAt": zod.string().optional()
+})
+export const GetCouponsResponse = zod.array(GetCouponsResponseItem)
+
+
+/**
+ * @summary Create a coupon (admin)
+ */
+export const CreateCouponBody = zod.object({
+  "code": zod.string(),
+  "discountType": zod.string(),
+  "discountValue": zod.number(),
+  "isActive": zod.boolean().optional(),
+  "maxUses": zod.number().nullish(),
+  "expiresAt": zod.string().nullish()
+})
+
+
+/**
+ * @summary Update a coupon (admin)
+ */
+export const UpdateCouponParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const UpdateCouponBody = zod.object({
+  "code": zod.string().optional(),
+  "discountType": zod.string().optional(),
+  "discountValue": zod.number().optional(),
+  "isActive": zod.boolean().optional(),
+  "maxUses": zod.number().nullish(),
+  "expiresAt": zod.string().nullish()
+})
+
+export const UpdateCouponResponse = zod.object({
+  "id": zod.number(),
+  "code": zod.string(),
+  "discountType": zod.string(),
+  "discountValue": zod.number(),
+  "isActive": zod.boolean(),
+  "maxUses": zod.number().nullish(),
+  "usedCount": zod.number(),
+  "expiresAt": zod.string().nullish(),
+  "createdAt": zod.string().optional()
+})
+
+
+/**
+ * @summary Delete a coupon (admin)
+ */
+export const DeleteCouponParams = zod.object({
+  "id": zod.coerce.number()
 })
 
 
@@ -719,7 +836,11 @@ export const GetSettingsResponse = zod.object({
   "twitter": zod.string().nullish(),
   "googleMapsEmbed": zod.string().nullish(),
   "metaTitle": zod.string().nullish(),
-  "metaDescription": zod.string().nullish()
+  "metaDescription": zod.string().nullish(),
+  "primaryColor": zod.string().nullish(),
+  "secondaryColor": zod.string().nullish(),
+  "accentColor": zod.string().nullish(),
+  "darkMode": zod.boolean()
 })
 
 
@@ -740,7 +861,11 @@ export const UpdateSettingsBody = zod.object({
   "twitter": zod.string().nullish(),
   "googleMapsEmbed": zod.string().nullish(),
   "metaTitle": zod.string().nullish(),
-  "metaDescription": zod.string().nullish()
+  "metaDescription": zod.string().nullish(),
+  "primaryColor": zod.string().nullish(),
+  "secondaryColor": zod.string().nullish(),
+  "accentColor": zod.string().nullish(),
+  "darkMode": zod.boolean().optional()
 })
 
 export const UpdateSettingsResponse = zod.object({
@@ -758,7 +883,11 @@ export const UpdateSettingsResponse = zod.object({
   "twitter": zod.string().nullish(),
   "googleMapsEmbed": zod.string().nullish(),
   "metaTitle": zod.string().nullish(),
-  "metaDescription": zod.string().nullish()
+  "metaDescription": zod.string().nullish(),
+  "primaryColor": zod.string().nullish(),
+  "secondaryColor": zod.string().nullish(),
+  "accentColor": zod.string().nullish(),
+  "darkMode": zod.boolean()
 })
 
 

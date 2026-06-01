@@ -20,7 +20,12 @@ router.get("/", async (_req, res) => {
 router.patch("/", requireAdmin, async (req, res) => {
   const settings = await getOrCreateSettings();
   const updates: any = {};
-  const fields = ["propertyName","tagline","address","phone","email","whatsapp","logoUrl","heroImages","facebook","instagram","twitter","googleMapsEmbed","metaTitle","metaDescription"];
+  const fields = [
+    "propertyName","tagline","address","phone","email","whatsapp",
+    "logoUrl","heroImages","facebook","instagram","twitter",
+    "googleMapsEmbed","metaTitle","metaDescription",
+    "primaryColor","secondaryColor","accentColor","darkMode",
+  ];
   for (const f of fields) {
     if (req.body[f] !== undefined) updates[f] = req.body[f];
   }

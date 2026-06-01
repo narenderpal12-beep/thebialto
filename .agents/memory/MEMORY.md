@@ -1,1 +1,4 @@
 - [Wouter nested route redirect bug](wouter-nested-redirect.md) — setLocation() inside a nested Route resolves relatively; use window.location.replace() to escape to an absolute path.
+- [Coupon & capacity schema](coupon-capacity-schema.md) — coupons table + adult/child capacity + booking fields + settings colors; added via raw SQL (drizzle push needs TTY).
+- [Email notifications](email-notifications.md) — nodemailer Gmail SMTP; needs EMAIL_USER + EMAIL_PASS env vars; gracefully skips if not set; sends to nareninsa12@gmail.com.
+- [ThemeApplier pattern](theme-applier.md) — hex→HSL utility injects CSS vars on documentElement; reads settings.darkMode to toggle .light-mode/.dark-mode class.

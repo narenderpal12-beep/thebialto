@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
@@ -18,6 +18,10 @@ export const settingsTable = pgTable("settings", {
   googleMapsEmbed: text("google_maps_embed"),
   metaTitle: text("meta_title"),
   metaDescription: text("meta_description"),
+  primaryColor: text("primary_color"),
+  secondaryColor: text("secondary_color"),
+  accentColor: text("accent_color"),
+  darkMode: boolean("dark_mode").notNull().default(true),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 

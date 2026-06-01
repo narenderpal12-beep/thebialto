@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { ImageUpload, MultiImageUpload, storageUrl } from "@/components/ui/image-upload";
-import { Plus, Pencil, Trash2, BedDouble } from "lucide-react";
+import { Plus, Pencil, Trash2, BedDouble, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const ROOM_TYPES = ["Classic", "Premium", "Deluxe", "Family Suite", "Sky Suite"];
@@ -24,7 +24,8 @@ interface RoomForm {
   featureImageUrl: string | null;
   galleryImages: string[];
   pricePerNight: number;
-  capacity: number;
+  adultCapacity: number;
+  childCapacity: number;
   amenities: string;
   description: string;
   isAvailable: boolean;
@@ -34,7 +35,7 @@ interface RoomForm {
 
 const defaultForm: RoomForm = {
   name: "", floorId: 0, roomType: "Deluxe", featureImageUrl: null,
-  galleryImages: [], pricePerNight: 5000, capacity: 2,
+  galleryImages: [], pricePerNight: 5000, adultCapacity: 2, childCapacity: 0,
   amenities: "", description: "", isAvailable: true, isPublished: true, isFeatured: false,
 };
 
@@ -60,7 +61,9 @@ export default function AdminRooms() {
       name: room.name, floorId: room.floorId, roomType: room.roomType,
       featureImageUrl: room.featureImageUrl ?? null,
       galleryImages: room.galleryImages ?? [],
-      pricePerNight: room.pricePerNight, capacity: room.capacity,
+      pricePerNight: room.pricePerNight,
+      adultCapacity: room.adultCapacity ?? 2,
+      childCapacity: room.childCapacity ?? 0,
       amenities: (room.amenities ?? []).join(", "),
       description: room.description,
       isAvailable: room.isAvailable, isPublished: room.isPublished, isFeatured: room.isFeatured,
@@ -117,7 +120,7 @@ export default function AdminRooms() {
               </tr>
             </thead>
             <tbody>
-              {rooms.map((room: any) => (
+              {(rooms as any[]).map((room: any) => (
                 <tr key={room.id} className="border-b border-border/50 hover:bg-muted/20 transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
@@ -134,7 +137,13 @@ export default function AdminRooms() {
                   <td className="px-4 py-3 text-muted-foreground">{room.floorName || `Floor ${room.floorId}`}</td>
                   <td className="px-4 py-3"><Badge variant="outline">{room.roomType}</Badge></td>
                   <td className="px-4 py-3">₹{room.pricePerNight.toLocaleString("en-IN")}/night</td>
-                  <td className="px-4 py-3">{room.capacity} guests</td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-1 text-xs">
+                      <Users className="w-3.5 h-3.5 text-muted-foreground" />
+                      <span>{room.adultCapacity ?? 2} adults</span>
+                      {(room.childCapacity ?? 0) > 0 && <span className="text-muted-foreground">+ {room.childCapacity} children</span>}
+                    </div>
+                  </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-1 flex-wrap">
                       {room.isPublished && <Badge className="bg-green-900/50 text-green-300 border-green-800">Published</Badge>}
@@ -153,7 +162,7 @@ export default function AdminRooms() {
               ))}
             </tbody>
           </table>
-          {rooms.length === 0 && (
+          {(rooms as any[]).length === 0 && (
             <div className="p-12 text-center text-muted-foreground">No rooms yet. Click "Add Room" to create the first one.</div>
           )}
         </div>
@@ -174,7 +183,7 @@ export default function AdminRooms() {
               <Select value={String(form.floorId)} onValueChange={v => set("floorId", Number(v))}>
                 <SelectTrigger><SelectValue placeholder="Select floor" /></SelectTrigger>
                 <SelectContent>
-                  {floors.map((f: any) => (
+                  {(floors as any[]).map((f: any) => (
                     <SelectItem key={f.id} value={String(f.id)}>{f.name}</SelectItem>
                   ))}
                 </SelectContent>
@@ -194,8 +203,12 @@ export default function AdminRooms() {
               <Input type="number" value={form.pricePerNight} onChange={e => set("pricePerNight", Number(e.target.value))} />
             </div>
             <div className="space-y-2">
-              <Label>Capacity (Guests)</Label>
-              <Input type="number" value={form.capacity} onChange={e => set("capacity", Number(e.target.value))} />
+              <Label>Adult Capacity</Label>
+              <Input type="number" min={1} value={form.adultCapacity} onChange={e => set("adultCapacity", Number(e.target.value))} placeholder="2" />
+            </div>
+            <div className="col-span-2 space-y-2">
+              <Label>Child Capacity <span className="text-muted-foreground text-xs font-normal">(under 12, set to 0 if children not allowed)</span></Label>
+              <Input type="number" min={0} value={form.childCapacity} onChange={e => set("childCapacity", Number(e.target.value))} placeholder="0" />
             </div>
             <div className="col-span-2 space-y-2">
               <Label>Description</Label>

@@ -39,10 +39,13 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", requireAdmin, async (req, res) => {
-  const { name, floorId, roomType, featureImageUrl, galleryImages, pricePerNight, capacity, amenities, description, isAvailable, isPublished, isFeatured } = req.body;
+  const { name, floorId, roomType, featureImageUrl, galleryImages, pricePerNight, adultCapacity, childCapacity, amenities, description, isAvailable, isPublished, isFeatured } = req.body;
   const [room] = await db.insert(roomsTable).values({
     name, floorId, roomType, featureImageUrl, galleryImages: galleryImages ?? [],
-    pricePerNight, capacity, amenities: amenities ?? [], description,
+    pricePerNight,
+    adultCapacity: adultCapacity ?? 2,
+    childCapacity: childCapacity ?? 0,
+    amenities: amenities ?? [], description,
     isAvailable: isAvailable ?? true, isPublished: isPublished ?? true, isFeatured: isFeatured ?? false,
   }).returning();
   const [floor] = await db.select().from(floorsTable).where(eq(floorsTable.id, room.floorId));
@@ -58,7 +61,7 @@ router.get("/:id", async (req, res) => {
 router.patch("/:id", requireAdmin, async (req, res) => {
   const id = Number(req.params.id);
   const updates: any = {};
-  const fields = ["name","floorId","roomType","featureImageUrl","galleryImages","pricePerNight","capacity","amenities","description","isAvailable","isPublished","isFeatured"];
+  const fields = ["name","floorId","roomType","featureImageUrl","galleryImages","pricePerNight","adultCapacity","childCapacity","amenities","description","isAvailable","isPublished","isFeatured"];
   for (const f of fields) {
     if (req.body[f] !== undefined) updates[f] = req.body[f];
   }

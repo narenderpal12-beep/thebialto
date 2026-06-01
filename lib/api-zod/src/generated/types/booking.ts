@@ -13,12 +13,17 @@ export interface Booking {
   guestPhone: string;
   checkIn: string;
   checkOut: string;
+  adults: number;
+  children: number;
   guests: number;
   /** @nullable */
   roomId?: number | null;
   roomType: string;
   /** @nullable */
   specialRequests?: string | null;
+  /** @nullable */
+  couponCode?: string | null;
+  discountAmount: number;
   status: string;
   totalAmount: number;
   createdAt: string;

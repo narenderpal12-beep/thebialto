@@ -14,7 +14,8 @@ export interface RoomInput {
   featureImageUrl?: string | null;
   galleryImages?: string[];
   pricePerNight: number;
-  capacity: number;
+  adultCapacity: number;
+  childCapacity: number;
   amenities?: string[];
   description: string;
   isAvailable?: boolean;

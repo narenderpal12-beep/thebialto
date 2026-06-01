@@ -12,7 +12,8 @@ import {
   Settings, 
   LogOut,
   Menu,
-  X
+  X,
+  Tag,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAdminLogout } from "@workspace/api-client-react";
@@ -24,6 +25,7 @@ const adminLinks = [
   { name: "Rooms", href: "/admin/rooms", rel: "/rooms", icon: BedDouble },
   { name: "Floors", href: "/admin/floors", rel: "/floors", icon: Layers },
   { name: "Bookings", href: "/admin/bookings", rel: "/bookings", icon: CalendarCheck },
+  { name: "Coupons", href: "/admin/coupons", rel: "/coupons", icon: Tag },
   { name: "Attractions", href: "/admin/attractions", rel: "/attractions", icon: MapPin },
   { name: "Reviews", href: "/admin/reviews", rel: "/reviews", icon: Star },
   { name: "Gallery", href: "/admin/gallery", rel: "/gallery", icon: ImageIcon },

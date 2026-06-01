@@ -19,6 +19,8 @@ tags:
     description: Floor management
   - name: bookings
     description: Booking management
+  - name: coupons
+    description: Discount coupon management
   - name: attractions
     description: Nearby attractions
   - name: reviews
@@ -389,6 +391,100 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Booking"
+
+  # Coupons
+  /coupons/validate/{code}:
+    get:
+      operationId: validateCoupon
+      tags: [coupons]
+      summary: Validate a coupon code (public)
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Valid coupon
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Coupon"
+        "400":
+          description: Expired or maxed-out coupon
+        "404":
+          description: Invalid coupon
+
+  /coupons:
+    get:
+      operationId: getCoupons
+      tags: [coupons]
+      summary: List all coupons (admin)
+      responses:
+        "200":
+          description: Coupon list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Coupon"
+    post:
+      operationId: createCoupon
+      tags: [coupons]
+      summary: Create a coupon (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CouponInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Coupon"
+
+  /coupons/{id}:
+    patch:
+      operationId: updateCoupon
+      tags: [coupons]
+      summary: Update a coupon (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CouponUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Coupon"
+    delete:
+      operationId: deleteCoupon
+      tags: [coupons]
+      summary: Delete a coupon (admin)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
 
   # Attractions
   /attractions:
@@ -880,7 +976,7 @@ components:
 
     Room:
       type: object
-      required: [id, name, floorId, roomType, pricePerNight, capacity, description, isAvailable, isPublished]
+      required: [id, name, floorId, roomType, pricePerNight, adultCapacity, childCapacity, description, isAvailable, isPublished]
       properties:
         id:
           type: integer
@@ -900,7 +996,9 @@ components:
             type: string
         pricePerNight:
           type: number
-        capacity:
+        adultCapacity:
+          type: integer
+        childCapacity:
           type: integer
         amenities:
           type: array
@@ -917,7 +1015,7 @@ components:
 
     RoomInput:
       type: object
-      required: [name, floorId, roomType, pricePerNight, capacity, description]
+      required: [name, floorId, roomType, pricePerNight, adultCapacity, childCapacity, description]
       properties:
         name:
           type: string
@@ -933,7 +1031,9 @@ components:
             type: string
         pricePerNight:
           type: number
-        capacity:
+        adultCapacity:
+          type: integer
+        childCapacity:
           type: integer
         amenities:
           type: array
@@ -965,7 +1065,9 @@ components:
             type: string
         pricePerNight:
           type: number
-        capacity:
+        adultCapacity:
+          type: integer
+        childCapacity:
           type: integer
         amenities:
           type: array
@@ -982,7 +1084,7 @@ components:
 
     Booking:
       type: object
-      required: [id, guestName, guestEmail, guestPhone, checkIn, checkOut, guests, roomType, status, totalAmount, createdAt]
+      required: [id, guestName, guestEmail, guestPhone, checkIn, checkOut, adults, children, guests, roomType, status, totalAmount, discountAmount, createdAt]
       properties:
         id:
           type: integer
@@ -996,6 +1098,10 @@ components:
           type: string
         checkOut:
           type: string
+        adults:
+          type: integer
+        children:
+          type: integer
         guests:
           type: integer
         roomId:
@@ -1004,6 +1110,10 @@ components:
           type: string
         specialRequests:
           type: ["string", "null"]
+        couponCode:
+          type: ["string", "null"]
+        discountAmount:
+          type: number
         status:
           type: string
         totalAmount:
@@ -1013,7 +1123,7 @@ components:
 
     BookingInput:
       type: object
-      required: [guestName, guestEmail, guestPhone, checkIn, checkOut, guests, roomType]
+      required: [guestName, guestEmail, guestPhone, checkIn, checkOut, adults, children, guests, roomType]
       properties:
         guestName:
           type: string
@@ -1025,6 +1135,10 @@ components:
           type: string
         checkOut:
           type: string
+        adults:
+          type: integer
+        children:
+          type: integer
         guests:
           type: integer
         roomId:
@@ -1033,6 +1147,12 @@ components:
           type: string
         specialRequests:
           type: ["string", "null"]
+        couponCode:
+          type: ["string", "null"]
+        discountAmount:
+          type: number
+        totalAmount:
+          type: number
 
     BookingUpdate:
       type: object
@@ -1206,7 +1326,7 @@ components:
 
     SiteSettings:
       type: object
-      required: [id, propertyName, tagline, address, phone, email, whatsapp]
+      required: [id, propertyName, tagline, address, phone, email, whatsapp, darkMode]
       properties:
         id:
           type: integer
@@ -1240,6 +1360,14 @@ components:
           type: ["string", "null"]
         metaDescription:
           type: ["string", "null"]
+        primaryColor:
+          type: ["string", "null"]
+        secondaryColor:
+          type: ["string", "null"]
+        accentColor:
+          type: ["string", "null"]
+        darkMode:
+          type: boolean
 
     SiteSettingsUpdate:
       type: object
@@ -1273,6 +1401,70 @@ components:
         metaTitle:
           type: ["string", "null"]
         metaDescription:
+          type: ["string", "null"]
+        primaryColor:
+          type: ["string", "null"]
+        secondaryColor:
+          type: ["string", "null"]
+        accentColor:
+          type: ["string", "null"]
+        darkMode:
+          type: boolean
+
+    Coupon:
+      type: object
+      required: [id, code, discountType, discountValue, isActive, usedCount]
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        discountType:
+          type: string
+        discountValue:
+          type: number
+        isActive:
+          type: boolean
+        maxUses:
+          type: ["integer", "null"]
+        usedCount:
+          type: integer
+        expiresAt:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    CouponInput:
+      type: object
+      required: [code, discountType, discountValue]
+      properties:
+        code:
+          type: string
+        discountType:
+          type: string
+        discountValue:
+          type: number
+        isActive:
+          type: boolean
+        maxUses:
+          type: ["integer", "null"]
+        expiresAt:
+          type: ["string", "null"]
+
+    CouponUpdate:
+      type: object
+      properties:
+        code:
+          type: string
+        discountType:
+          type: string
+        discountValue:
+          type: number
+        isActive:
+          type: boolean
+        maxUses:
+          type: ["integer", "null"]
+        expiresAt:
           type: ["string", "null"]
 
     UploadUrlRequest:

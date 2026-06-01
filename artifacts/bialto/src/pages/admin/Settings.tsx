@@ -4,8 +4,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ImageUpload, MultiImageUpload, storageUrl } from "@/components/ui/image-upload";
-import { Loader2, Save, Globe, Phone, Image as ImageIcon, Share2 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { ImageUpload, MultiImageUpload } from "@/components/ui/image-upload";
+import { Loader2, Save, Globe, Phone, Image as ImageIcon, Share2, Palette, Moon, Sun } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function AdminSettings() {
@@ -48,12 +49,20 @@ export default function AdminSettings() {
     </div>
   );
 
+  const COLOR_PRESETS: Record<string, { primary: string; secondary: string; accent: string }> = {
+    "Gold (Default)": { primary: "#c47c2b", secondary: "#1a2c52", accent: "#162040" },
+    "Royal Blue":     { primary: "#3b82f6", secondary: "#1e3a5f", accent: "#0f2044" },
+    "Emerald":        { primary: "#10b981", secondary: "#1a3a2e", accent: "#0d2a20" },
+    "Rose":           { primary: "#e11d48", secondary: "#2a1a2e", accent: "#1a0d1e" },
+    "Teal":           { primary: "#14b8a6", secondary: "#1a2e30", accent: "#0d2022" },
+  };
+
   return (
     <div className="space-y-6 max-w-3xl">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-serif tracking-wide">Site Settings</h1>
-          <p className="text-muted-foreground mt-1">Manage website content and contact information.</p>
+          <p className="text-muted-foreground mt-1">Manage website content, contact information, and theme.</p>
         </div>
         <Button onClick={handleSave} disabled={updateSettings.isPending} className="bg-primary text-primary-foreground">
           {updateSettings.isPending ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Saving...</> : <><Save className="w-4 h-4 mr-2" />Save Settings</>}
@@ -103,18 +112,123 @@ export default function AdminSettings() {
           <div className="space-y-2">
             <Label>Logo Image</Label>
             <ImageUpload value={form.logoUrl} onChange={url => set("logoUrl", url)} label="Upload Logo" className="max-w-xs" />
-            {form.logoUrl && (
-              <div className="mt-2 p-3 bg-muted/30 rounded flex items-center gap-3">
-                <div className="text-xs text-muted-foreground">Current logo URL:</div>
-                <code className="text-xs break-all">/api/storage{form.logoUrl}</code>
-              </div>
-            )}
           </div>
           <div className="space-y-2">
             <Label>Hero Slider Images</Label>
             <p className="text-xs text-muted-foreground">Upload images that will rotate in the homepage hero slider.</p>
             <MultiImageUpload value={form.heroImages ?? []} onChange={urls => set("heroImages", urls)} label="Add Hero Image" maxImages={6} />
           </div>
+        </div>
+      </Section>
+
+      {/* Theme & Appearance */}
+      <Section title="Theme & Appearance" icon={Palette}>
+        <div className="space-y-6">
+          {/* Dark / Light mode toggle */}
+          <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border">
+            <div className="flex items-center gap-3">
+              {form.darkMode !== false ? <Moon className="w-5 h-5 text-primary" /> : <Sun className="w-5 h-5 text-yellow-500" />}
+              <div>
+                <div className="font-medium text-sm">{form.darkMode !== false ? "Dark Mode" : "Light Mode"}</div>
+                <div className="text-xs text-muted-foreground">Toggle between dark and light admin theme</div>
+              </div>
+            </div>
+            <Switch
+              checked={form.darkMode !== false}
+              onCheckedChange={v => set("darkMode", v)}
+              id="darkmode"
+            />
+          </div>
+
+          {/* Color presets */}
+          <div className="space-y-2">
+            <Label>Color Presets</Label>
+            <p className="text-xs text-muted-foreground">Click a preset to fill the color pickers below.</p>
+            <div className="flex flex-wrap gap-2">
+              {Object.entries(COLOR_PRESETS).map(([name, colors]) => (
+                <button
+                  key={name}
+                  type="button"
+                  onClick={() => { set("primaryColor", colors.primary); set("secondaryColor", colors.secondary); set("accentColor", colors.accent); }}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-border hover:border-primary text-xs transition-colors"
+                >
+                  <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: colors.primary }} />
+                  {name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Color pickers */}
+          <div className="grid grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <Label>Primary Color</Label>
+              <p className="text-xs text-muted-foreground">Buttons, highlights, gold accents</p>
+              <div className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={form.primaryColor || "#c47c2b"}
+                  onChange={e => set("primaryColor", e.target.value)}
+                  className="w-10 h-10 rounded cursor-pointer border border-border bg-transparent p-0.5"
+                />
+                <Input
+                  value={form.primaryColor || ""}
+                  onChange={e => set("primaryColor", e.target.value)}
+                  placeholder="#c47c2b"
+                  className="font-mono text-xs"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Secondary Color</Label>
+              <p className="text-xs text-muted-foreground">Card backgrounds, secondary UI</p>
+              <div className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={form.secondaryColor || "#1a2c52"}
+                  onChange={e => set("secondaryColor", e.target.value)}
+                  className="w-10 h-10 rounded cursor-pointer border border-border bg-transparent p-0.5"
+                />
+                <Input
+                  value={form.secondaryColor || ""}
+                  onChange={e => set("secondaryColor", e.target.value)}
+                  placeholder="#1a2c52"
+                  className="font-mono text-xs"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>Accent Color</Label>
+              <p className="text-xs text-muted-foreground">Card / popover backgrounds</p>
+              <div className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={form.accentColor || "#162040"}
+                  onChange={e => set("accentColor", e.target.value)}
+                  className="w-10 h-10 rounded cursor-pointer border border-border bg-transparent p-0.5"
+                />
+                <Input
+                  value={form.accentColor || ""}
+                  onChange={e => set("accentColor", e.target.value)}
+                  placeholder="#162040"
+                  className="font-mono text-xs"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Live preview strip */}
+          {(form.primaryColor || form.secondaryColor) && (
+            <div className="space-y-1">
+              <Label>Preview</Label>
+              <div className="flex gap-2 items-center p-3 rounded-lg border border-border bg-muted/20">
+                <div className="w-8 h-8 rounded" style={{ background: form.primaryColor || "#c47c2b" }} title="Primary" />
+                <div className="w-8 h-8 rounded" style={{ background: form.secondaryColor || "#1a2c52" }} title="Secondary" />
+                <div className="w-8 h-8 rounded" style={{ background: form.accentColor || "#162040" }} title="Accent" />
+                <div className="ml-2 text-xs text-muted-foreground">Colors will apply after saving</div>
+              </div>
+            </div>
+          )}
         </div>
       </Section>
 
