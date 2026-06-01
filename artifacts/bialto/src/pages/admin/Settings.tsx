@@ -65,12 +65,12 @@ export default function AdminSettings() {
     <div className={`grid grid-cols-${cols} gap-4`}>{children}</div>
   );
 
-  const COLOR_PRESETS: Record<string, { primary: string; secondary: string; accent: string }> = {
-    "Gold (Default)": { primary: "#c47c2b", secondary: "#1a2c52", accent: "#162040" },
-    "Royal Blue":     { primary: "#3b82f6", secondary: "#1e3a5f", accent: "#0f2044" },
-    "Emerald":        { primary: "#10b981", secondary: "#1a3a2e", accent: "#0d2a20" },
-    "Rose":           { primary: "#e11d48", secondary: "#2a1a2e", accent: "#1a0d1e" },
-    "Teal":           { primary: "#14b8a6", secondary: "#1a2e30", accent: "#0d2022" },
+  const COLOR_PRESETS: Record<string, { primary: string; secondary: string; accent: string } | null> = {
+    "Default (Bialto)": null,
+    "Royal Blue":       { primary: "#3b82f6", secondary: "#1e3a5f", accent: "#0f2044" },
+    "Emerald":          { primary: "#10b981", secondary: "#1a3a2e", accent: "#0d2a20" },
+    "Rose":             { primary: "#e11d48", secondary: "#2a1a2e", accent: "#1a0d1e" },
+    "Teal":             { primary: "#14b8a6", secondary: "#1a2e30", accent: "#0d2022" },
   };
 
   return (
@@ -310,10 +310,19 @@ export default function AdminSettings() {
                     <button
                       key={name}
                       type="button"
-                      onClick={() => { set("primaryColor", colors.primary); set("secondaryColor", colors.secondary); set("accentColor", colors.accent); }}
+                      onClick={() => {
+                        if (colors === null) {
+                          set("primaryColor", null); set("secondaryColor", null); set("accentColor", null);
+                        } else {
+                          set("primaryColor", colors.primary); set("secondaryColor", colors.secondary); set("accentColor", colors.accent);
+                        }
+                      }}
                       className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-border hover:border-primary text-xs transition-colors"
                     >
-                      <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: colors.primary }} />
+                      <span
+                        className="w-3 h-3 rounded-full flex-shrink-0 border border-border"
+                        style={{ background: colors ? colors.primary : "#c47c2b" }}
+                      />
                       {name}
                     </button>
                   ))}

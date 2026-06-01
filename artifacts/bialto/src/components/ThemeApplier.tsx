@@ -22,6 +22,18 @@ function hexToHsl(hex: string): string | null {
   return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
 }
 
+function applyOrRemove(root: HTMLElement, props: string[], hex: string | null | undefined) {
+  if (hex) {
+    const hsl = hexToHsl(hex);
+    if (hsl) {
+      props.forEach(p => root.style.setProperty(p, hsl));
+      return;
+    }
+  }
+  // No custom color — remove inline overrides so the CSS file defaults take over
+  props.forEach(p => root.style.removeProperty(p));
+}
+
 export function ThemeApplier() {
   const { data: settings } = useGetSettings({ query: { staleTime: 60_000 } });
 
@@ -29,34 +41,9 @@ export function ThemeApplier() {
     if (!settings) return;
     const root = document.documentElement;
 
-    if (settings.primaryColor) {
-      const hsl = hexToHsl(settings.primaryColor);
-      if (hsl) {
-        root.style.setProperty("--primary", hsl);
-        root.style.setProperty("--ring", hsl);
-        root.style.setProperty("--sidebar-primary", hsl);
-        root.style.setProperty("--sidebar-ring", hsl);
-        root.style.setProperty("--accent", hsl);
-        root.style.setProperty("--chart-1", hsl);
-      }
-    }
-
-    if (settings.secondaryColor) {
-      const hsl = hexToHsl(settings.secondaryColor);
-      if (hsl) {
-        root.style.setProperty("--secondary", hsl);
-        root.style.setProperty("--sidebar-accent", hsl);
-        root.style.setProperty("--muted", hsl);
-      }
-    }
-
-    if (settings.accentColor) {
-      const hsl = hexToHsl(settings.accentColor);
-      if (hsl) {
-        root.style.setProperty("--card", hsl);
-        root.style.setProperty("--popover", hsl);
-      }
-    }
+    applyOrRemove(root, ["--primary", "--ring", "--sidebar-primary", "--sidebar-ring", "--chart-1"], settings.primaryColor);
+    applyOrRemove(root, ["--secondary", "--sidebar-accent", "--muted"], settings.secondaryColor);
+    applyOrRemove(root, ["--card", "--popover"], settings.accentColor);
 
     if (settings.darkMode === false) {
       root.classList.add("light-mode");
