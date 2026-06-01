@@ -41,7 +41,9 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
     logout.mutate(undefined, {
       onSuccess: () => {
         queryClient.clear();
-        setLocation("/admin/login");
+        // Use window.location to escape the nested /admin Router context.
+        // setLocation inside a nested Route resolves relatively and would navigate to /admin/admin/login.
+        window.location.replace("/admin/login");
       }
     });
   };
@@ -61,8 +63,8 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
             : location === link.rel || location.startsWith(link.rel + "/");
           return (
             <Link 
-              key={link.href} 
-              href={link.href}
+              key={link.rel} 
+              href={link.rel}
               className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors ${
                 isActive 
                   ? "bg-sidebar-primary text-sidebar-primary-foreground font-medium" 

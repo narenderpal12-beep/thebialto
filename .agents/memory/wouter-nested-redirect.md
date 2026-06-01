@@ -1,15 +1,21 @@
 ---
 name: Wouter nested route redirect bug
-description: setLocation() from useLocation() inside a Wouter nested Route (<Route nest>) navigates relative to the nest base, not the root — causes wrong destinations when redirecting out of a nested context.
+description: Inside a Wouter nested Route (<Route nest>), both setLocation() AND Link href with absolute paths resolve relative to the nest base — NOT the root. Must use relative hrefs and window.location to escape.
 ---
 
 ## The Rule
-Never use `setLocation("/admin/login")` inside a component that renders inside a `<Route path="/admin" nest>`. Use `window.location.replace("/admin/login")` instead.
+Inside any component rendered inside `<Route path="/admin" nest>`:
+- `<Link href="/admin/rooms">` → navigates to `/admin/admin/rooms` ✗ — use `<Link href="/rooms">` ✓
+- `setLocation("/admin/login")` → navigates to `/admin/admin/login` ✗ — use `window.location.replace("/admin/login")` ✓
+- `useLocation()` returns `/rooms` when URL is `/admin/rooms` (relative to nest base)
 
-**Why:** In Wouter v3.10, `useLocation()` inside a nested Route context returns a path relative to the nest base, AND `setLocation()` navigates relative to that same base. So `setLocation("/admin/login")` inside the `/admin` nest actually navigates to `/admin/admin/login`, which falls through to the NotFound route while still showing the AdminLayout.
+**Why:** Wouter v3.10 nested Router contexts strip the base prefix from location AND prepend it to all navigation. Absolute paths starting with `/` are treated as absolute within the sub-router, not the root router.
 
-**How to apply:** Any time a component (like ProtectedRoute) renders inside a nested Route and needs to redirect to an absolute URL outside that nest, use `window.location.replace(url)` instead of Wouter's `setLocation`. This applies in App.tsx's ProtectedRoute which renders inside `<Route path="/admin" nest>`.
+**How to apply:** 
+1. All `<Link>` hrefs inside AdminLayout must use relative paths (e.g., `/rooms`, `/floors`, `/`) not full paths (`/admin/rooms`).
+2. All `setLocation()` calls that redirect OUT of the nested context must use `window.location.replace(url)` instead.
+3. Active-link checks must compare `useLocation()` result (relative) against relative paths.
 
-**Side effects of the bug:** The AdminLayout sidebar still renders (because the outer nest matches), but the inner Switch shows NotFound ("Did you forget to add the page to the router?") instead of the login page.
-
-**Also:** `useLocation()` in AdminLayout (which is inside the nested context) returns relative paths like `/` for `/admin` and `/rooms` for `/admin/rooms`. Active link highlighting must compare against these relative paths, not full paths like `/admin/rooms`.
+**Applied in:**
+- `AdminLayout.tsx`: Link hrefs changed to `link.rel` (relative paths), logout uses `window.location.replace`
+- `App.tsx` ProtectedRoute: uses `window.location.replace("/admin/login")` instead of `setLocation`
