@@ -4,7 +4,8 @@
   "description": "The Bialto by Asemont Estate — production server",
   "type": "module",
   "scripts": {
-    "start": "node --enable-source-maps index.mjs"
+    "start": "node --env-file=.env --enable-source-maps index.mjs",
+    "setup": "node --env-file=.env setup-db.mjs"
   },
   "dependencies": {
     "nodemailer": "^8.0.10",

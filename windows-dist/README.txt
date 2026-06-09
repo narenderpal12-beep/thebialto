@@ -11,20 +11,21 @@ STEP 1 — Create the database
 
 STEP 2 — Configure environment
   Copy .env.example  ->  .env
-  Edit .env:
+  Edit .env with your PostgreSQL password and a secret string:
     DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/bialto
     SESSION_SECRET=any_long_random_string
     PORT=3000
     NODE_ENV=production
 
-STEP 3 — Set up the database (run ONCE)
-  Open a Command Prompt in this folder and run:
+STEP 3 — Install dependencies (run ONCE)
+  Open Command Prompt in this folder and run:
     npm install
-    node setup-db.mjs
 
-STEP 4 — Start the app
-  Double-click start.bat
-  OR in Command Prompt: node index.mjs
+STEP 4 — Set up the database (run ONCE)
+    npm run setup
+
+STEP 5 — Start the app (every time)
+    npm start
 
   Website: http://localhost:3000
   Admin:   http://localhost:3000/admin/login
