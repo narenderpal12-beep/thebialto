@@ -1,0 +1,12 @@
+{
+  "name": "bialto-server",
+  "version": "1.0.0",
+  "description": "The Bialto by Asemont Estate — production server",
+  "type": "module",
+  "scripts": {
+    "start": "node --enable-source-maps index.mjs"
+  },
+  "dependencies": {
+    "nodemailer": "^8.0.10"
+  }
+}

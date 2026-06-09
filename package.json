@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "preinstall": "node -e \"var ua=process.env.npm_config_user_agent||''; ['package-lock.json','yarn.lock'].forEach(function(f){try{require('fs').unlinkSync(f);}catch(e){}}); if(ua && !ua.startsWith('pnpm')){console.error('Use pnpm instead');process.exit(1);}\"",
+    "package:windows": "node scripts/package-windows.mjs",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",
     "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"

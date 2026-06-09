@@ -47,3 +47,9 @@ id = "Tv4EimFQRE4rEutBS4J8H"
 uri = "file://WINDOWS_SETUP.md"
 type = "text"
 title = "Windows Setup Guide"
+
+[[outputs]]
+id = "43fVGtvRjot5-SEVFjvZc"
+uri = "file://bialto-windows.tar.gz"
+type = "unspecified"
+title = "Bialto — Windows Package (bialto-windows.tar.gz)"
