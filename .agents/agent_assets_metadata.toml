@@ -41,3 +41,9 @@ id = "LI3GCzE6Ry9TyPkCOVv58"
 uri = "file://bialto_backup.sql.gz"
 type = "unspecified"
 title = "Bialto DB Backup"
+
+[[outputs]]
+id = "Tv4EimFQRE4rEutBS4J8H"
+uri = "file://WINDOWS_SETUP.md"
+type = "text"
+title = "Windows Setup Guide"
