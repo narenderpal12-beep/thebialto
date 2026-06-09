@@ -1,4 +1,7 @@
-# The Bialto — Windows startup script
+# The Bialto — PowerShell startup script
+Write-Host '============================================'
+Write-Host ' The Bialto by Asemont Estate'
+Write-Host '============================================'
 
 if (-not (Test-Path '.env')) {
     Write-Error '.env not found. Copy .env.example to .env and fill in your values.'
@@ -7,17 +10,18 @@ if (-not (Test-Path '.env')) {
 
 # Load .env into current session
 Get-Content '.env' | ForEach-Object {
-    if ($_ -match '^\s*#' -or $_ -match '^\s*$') { return }
-    $parts = $_ -split '=', 2
+    $line = $_.Trim()
+    if ($line -match '^\s*#' -or $line -eq '') { return }
+    $parts = $line -split '=', 2
     [System.Environment]::SetEnvironmentVariable($parts[0].Trim(), $parts[1].Trim())
 }
 
-# Install npm deps if needed
 if (-not (Test-Path 'node_modules')) {
-    Write-Host 'Installing dependencies...'
+    Write-Host 'Installing npm dependencies...'
     npm install --production
 }
 
 $port = if ($env:PORT) { $env:PORT } else { '3000' }
-Write-Host "Server starting at http://localhost:$port"
+Write-Host "Server running at http://localhost:$port"
+Write-Host 'Press Ctrl+C to stop.'
 node --enable-source-maps index.mjs

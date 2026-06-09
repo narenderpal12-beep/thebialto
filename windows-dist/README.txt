@@ -1,27 +1,38 @@
-THE BIALTO BY ASEMONT ESTATE — Windows Production Package
-=========================================================
+THE BIALTO BY ASEMONT ESTATE — Windows Package
+===============================================
 
 REQUIREMENTS
-  - Node.js 20 or 22 LTS  (https://nodejs.org)
-  - PostgreSQL 15 or 16   (https://www.postgresql.org/download/windows/)
+  - Node.js 20 or 22 LTS  ->  https://nodejs.org
+  - PostgreSQL 15 or 16   ->  https://www.postgresql.org/download/windows/
 
-FIRST TIME SETUP
-  1. Create a PostgreSQL database called 'bialto'
-     In psql: CREATE DATABASE bialto;
+STEP 1 — Create the database
+  Open pgAdmin or psql and run:
+    CREATE DATABASE bialto;
 
-  2. Copy .env.example to .env
-     Set DATABASE_URL and SESSION_SECRET
+STEP 2 — Configure environment
+  Copy .env.example  ->  .env
+  Edit .env:
+    DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/bialto
+    SESSION_SECRET=any_long_random_string
+    PORT=3000
+    NODE_ENV=production
 
-  3. Run the database schema setup (one time only):
-     See WINDOWS_SETUP.md in the project root for instructions.
+STEP 3 — Set up the database (run ONCE)
+  Open a Command Prompt in this folder and run:
+    npm install
+    node setup-db.mjs
 
-START THE APP
+STEP 4 — Start the app
   Double-click start.bat
-  OR in PowerShell: .\start.ps1
+  OR in Command Prompt: node index.mjs
 
-  Then open http://localhost:3000 in your browser.
-  Admin panel: http://localhost:3000/admin/login
-  Email: admin@bialto.com  /  Password: admin123
+  Website: http://localhost:3000
+  Admin:   http://localhost:3000/admin/login
+           Email:    admin@bialto.com
+           Password: admin123
 
-CHANGE THE PORT
+CHANGE PORT
   Edit PORT=3000 in your .env file.
+
+STOP THE SERVER
+  Press Ctrl+C in the Command Prompt window.
