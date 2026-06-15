@@ -2,14 +2,18 @@
   "name": "workspace",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {
-    "preinstall": "node -e \"var ua=process.env.npm_config_user_agent||''; ['package-lock.json','yarn.lock'].forEach(function(f){try{require('fs').unlinkSync(f);}catch(e){}}); if(ua && !ua.startsWith('pnpm')){console.error('Use pnpm instead');process.exit(1);}\"",
-    "package:windows": "node scripts/package-windows.mjs",
-    "build": "pnpm run typecheck && pnpm -r --if-present run build",
-    "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
-  },
   "private": true,
+  "workspaces": [
+    "artifacts/*",
+    "lib/*",
+    "scripts"
+  ],
+  "scripts": {
+    "package:windows": "node scripts/package-windows.mjs",
+    "build": "npm run typecheck && npm run --workspaces --if-present build",
+    "typecheck:libs": "tsc --build",
+    "typecheck": "npm run typecheck:libs && npm run --workspaces --if-present typecheck"
+  },
   "devDependencies": {
     "prettier": "^3.8.3",
     "typescript": "~5.9.3"
