@@ -248,39 +248,78 @@ export default function Home() {
       {/* ══════════════════════════════════════════
           3. FIVE FLOORS
       ══════════════════════════════════════════ */}
-      <section className="bg-[#faf7f2] py-20 md:py-24">
+      <section className="bg-[#0b1220] py-24 md:py-32">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="text-center mb-12">
-            <SectionLabel>{floorsSectionLabel}</SectionLabel>
-            <h2 className="text-3xl md:text-4xl font-serif text-[#1a2332]">{floorsSectionTitle}</h2>
+          {/* Header */}
+          <div className="text-center mb-16">
+            <SectionLabel dark>{floorsSectionLabel}</SectionLabel>
+            <h2 className="text-4xl md:text-5xl font-serif text-white mt-2 mb-4">{floorsSectionTitle}</h2>
+            <p className="text-white/40 text-sm leading-relaxed max-w-lg mx-auto">
+              Each floor is a private world of curated comfort — from grand suites to cosy retreats, all with sweeping views of the Kasauli hillside.
+            </p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {(floors as any[]).slice(0, 5).map((floor, i) => (
-              <Link key={floor.id} href={`/floors/${floor.id}`} className="group block">
-                <div className="relative h-44 md:h-52 overflow-hidden">
-                  {floor.imageUrl ? (
-                    <img
-                      src={storageUrl(floor.imageUrl)}
-                      alt={floor.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  ) : (
-                    <img
-                      src={["/images/hero-1.png","/images/about-interior.png","/images/about-balcony.png","/images/hero-2.png","/images/about-interior.png"][i % 5]}
-                      alt={floor.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-3">
-                    <div className="text-[10px] font-semibold tracking-[0.15em] text-primary uppercase mb-0.5">Floor {floor.floorNumber}</div>
-                    <h3 className="text-white font-serif text-sm leading-tight">{floor.name}</h3>
+          {/* Top 2 large floors */}
+          <div className="grid md:grid-cols-2 gap-3 mb-3">
+            {(floors as any[]).slice(0, 2).map((floor, i) => (
+              <Link key={floor.id} href={`/floors/${floor.id}`} className="group relative overflow-hidden block h-80 md:h-[420px]">
+                <img
+                  src={floor.imageUrl ? storageUrl(floor.imageUrl) : ["/images/hero-1.png", "/images/about-interior.png"][i % 2]}
+                  alt={floor.name}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#060d1a] via-[#060d1a]/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#060d1a]/50 to-transparent" />
+                <div className="absolute top-4 right-5 text-[100px] font-serif text-white/[0.05] leading-none select-none pointer-events-none">
+                  0{floor.floorNumber}
+                </div>
+                <div className="absolute top-5 left-5">
+                  <span className="inline-block text-[10px] font-semibold tracking-[0.2em] text-primary uppercase bg-black/40 backdrop-blur-sm px-3 py-1.5 border border-primary/30">
+                    Floor {floor.floorNumber}
+                  </span>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-7">
+                  <h3 className="text-white font-serif text-2xl md:text-3xl mb-2 group-hover:text-primary/90 transition-colors duration-300">
+                    {floor.name}
+                  </h3>
+                  <p className="text-white/50 text-xs leading-relaxed line-clamp-2 max-w-sm mb-5">{floor.description}</p>
+                  <div className="flex items-center gap-2 text-primary text-xs font-semibold tracking-[0.15em] uppercase opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                    Explore Floor & Rooms <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
-                <div className="bg-white border border-gray-100 px-3 py-3 group-hover:border-primary/30 transition-colors">
-                  <p className="text-[#4a5568] text-xs leading-relaxed line-clamp-2">{floor.description}</p>
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+              </Link>
+            ))}
+          </div>
+
+          {/* Bottom 3 floors */}
+          <div className="grid sm:grid-cols-3 gap-3">
+            {(floors as any[]).slice(2, 5).map((floor, i) => (
+              <Link key={floor.id} href={`/floors/${floor.id}`} className="group relative overflow-hidden block h-64 md:h-72">
+                <img
+                  src={floor.imageUrl ? storageUrl(floor.imageUrl) : ["/images/about-balcony.png", "/images/hero-2.png", "/images/about-interior.png"][i % 3]}
+                  alt={floor.name}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#060d1a] via-[#060d1a]/20 to-transparent" />
+                <div className="absolute top-4 left-4">
+                  <span className="inline-block text-[9px] font-semibold tracking-[0.2em] text-primary uppercase bg-black/40 backdrop-blur-sm px-2.5 py-1 border border-primary/30">
+                    Floor {floor.floorNumber}
+                  </span>
                 </div>
+                <div className="absolute top-3 right-4 text-[70px] font-serif text-white/[0.05] leading-none select-none pointer-events-none">
+                  0{floor.floorNumber}
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <h3 className="text-white font-serif text-xl mb-1.5 group-hover:text-primary/90 transition-colors duration-300">
+                    {floor.name}
+                  </h3>
+                  <p className="text-white/40 text-xs line-clamp-1 mb-4">{floor.description}</p>
+                  <div className="flex items-center gap-1.5 text-primary text-[10px] font-semibold tracking-[0.15em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    View Rooms <ArrowRight className="w-3 h-3" />
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               </Link>
             ))}
           </div>
