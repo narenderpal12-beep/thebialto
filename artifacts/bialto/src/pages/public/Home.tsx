@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import {
   useGetFloors, useGetAmenities, useGetAttractions, useGetReviews, useGetGallery, useGetSettings,
 } from "@workspace/api-client-react";
-import { storageUrl } from "@/components/ui/image-upload";
+import { imageUrl } from "@/components/ui/image-upload";
 import {
   Mountain, BedDouble, Heart, Building2, Wifi, UtensilsCrossed, Flame, Car,
   Zap, Shield, Star, ChevronRight, Play, CalendarDays, Users, ArrowRight,
@@ -26,21 +26,27 @@ function SectionLabel({ children, dark = false }: { children: string; dark?: boo
 }
 
 export default function Home() {
-  const { data: floors = [] } = useGetFloors();
-  const { data: amenities = [] } = useGetAmenities();
-  const { data: attractions = [] } = useGetAttractions();
-  const { data: reviews = [] } = useGetReviews({ approved: true });
-  const { data: gallery = [] } = useGetGallery({});
+  const { data: floorsRaw } = useGetFloors();
+  const { data: amenitiesRaw } = useGetAmenities();
+  const { data: attractionsRaw } = useGetAttractions();
+  const { data: reviewsRaw } = useGetReviews({ approved: true });
+  const { data: galleryRaw } = useGetGallery({});
   const { data: settings } = useGetSettings();
+
+  const floors: any[] = Array.isArray(floorsRaw) ? floorsRaw : [];
+  const amenities: any[] = Array.isArray(amenitiesRaw) ? amenitiesRaw : [];
+  const attractions: any[] = Array.isArray(attractionsRaw) ? attractionsRaw : [];
+  const reviews: any[] = Array.isArray(reviewsRaw) ? reviewsRaw : [];
+  const gallery: any[] = Array.isArray(galleryRaw) ? galleryRaw : [];
 
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState("2");
 
-  const approvedReviews = (reviews as any[]).filter((r) => r.isApproved);
+  const approvedReviews = reviews.filter((r) => r.isApproved);
   const firstReview = approvedReviews[0];
-  const galleryPreview = (gallery as any[]).slice(0, 4);
-  const attractionsList = (attractions as any[]).slice(0, 4);
+  const galleryPreview = gallery.slice(0, 4);
+  const attractionsList = attractions.slice(0, 4);
 
   // Hero section content
   const heroTagline = (settings as any)?.heroTagline || "Luxury Homestay in Kasauli";
@@ -115,9 +121,9 @@ export default function Home() {
                 >
                   {heroCtaText}
                 </Link>
-                <button className="inline-flex items-center gap-2 border border-white/30 text-white text-xs font-semibold tracking-[0.15em] uppercase px-7 py-3.5 hover:bg-white/10 transition-colors">
+                {/* <button className="inline-flex items-center gap-2 border border-white/30 text-white text-xs font-semibold tracking-[0.15em] uppercase px-7 py-3.5 hover:bg-white/10 transition-colors">
                   <Play className="w-3.5 h-3.5" /> Watch Video
-                </button>
+                </button> */}
               </div>
             </motion.div>
           </div>
@@ -236,7 +242,7 @@ export default function Home() {
           {/* Right — image */}
           <div className="relative">
             <img
-              src={aboutImage ? storageUrl(aboutImage) : "/images/about-balcony.png"}
+              src={aboutImage ? imageUrl(aboutImage) : "/images/about-balcony.png"}
               alt="The Bialto Estate View"
               className="w-full h-[420px] md:h-[500px] object-cover shadow-2xl"
             />
@@ -264,7 +270,7 @@ export default function Home() {
             {(floors as any[]).slice(0, 2).map((floor, i) => (
               <Link key={floor.id} href={`/floors/${floor.id}`} className="group relative overflow-hidden block h-80 md:h-[420px]">
                 <img
-                  src={floor.imageUrl ? storageUrl(floor.imageUrl) : ["/images/hero-1.png", "/images/about-interior.png"][i % 2]}
+                  src={floor.imageUrl ? imageUrl(floor.imageUrl) : ["/images/hero-1.png", "/images/about-interior.png"][i % 2]}
                   alt={floor.name}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -297,7 +303,7 @@ export default function Home() {
             {(floors as any[]).slice(2, 5).map((floor, i) => (
               <Link key={floor.id} href={`/floors/${floor.id}`} className="group relative overflow-hidden block h-64 md:h-72">
                 <img
-                  src={floor.imageUrl ? storageUrl(floor.imageUrl) : ["/images/about-balcony.png", "/images/hero-2.png", "/images/about-interior.png"][i % 3]}
+                  src={floor.imageUrl ? imageUrl(floor.imageUrl) : ["/images/about-balcony.png", "/images/hero-2.png", "/images/about-interior.png"][i % 3]}
                   alt={floor.name}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
@@ -364,7 +370,7 @@ export default function Home() {
               {galleryPreview.length > 0 ? galleryPreview.map((img: any) => (
                 <div key={img.id} className="aspect-square overflow-hidden">
                   <img
-                    src={storageUrl(img.imageUrl)}
+                    src={imageUrl(img.imageUrl)}
                     alt={img.title}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
@@ -392,7 +398,7 @@ export default function Home() {
                 <div key={a.id} className="flex gap-3 items-center">
                   <div className="w-14 h-14 flex-shrink-0 overflow-hidden rounded">
                     {a.imageUrl ? (
-                      <img src={storageUrl(a.imageUrl)} alt={a.name} className="w-full h-full object-cover" />
+                      <img src={imageUrl(a.imageUrl)} alt={a.name} className="w-full h-full object-cover" />
                     ) : (
                       <img
                         src={["/images/attr-mall-road.png", "/images/attr-church.png", "/images/about-balcony.png", "/images/hero-2.png"][i % 4]}

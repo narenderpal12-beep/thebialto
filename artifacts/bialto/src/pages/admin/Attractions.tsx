@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ImageUpload, storageUrl } from "@/components/ui/image-upload";
+import { ImageUpload,  imageUrl } from "@/components/ui/image-upload";
 import { Plus, Pencil, Trash2, MapPin, Clock, Navigation } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -67,7 +67,7 @@ export default function AdminAttractions() {
           {(attractions as any[]).map(a => (
             <div key={a.id} className="bg-card border border-border rounded-lg p-4 flex gap-4 hover:border-primary/30 transition-colors">
               {a.imageUrl ? (
-                <img src={storageUrl(a.imageUrl)} alt={a.name} className="w-20 h-20 rounded object-cover flex-shrink-0" />
+                <img src={ imageUrl(a.imageUrl)} alt={a.name} className="w-20 h-20 rounded object-cover flex-shrink-0" />
               ) : (
                 <div className="w-20 h-20 rounded bg-muted flex items-center justify-center flex-shrink-0">
                   <MapPin className="w-8 h-8 text-muted-foreground/30" />

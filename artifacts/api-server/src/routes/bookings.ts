@@ -3,7 +3,8 @@ import { db, bookingsTable, couponsTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
 import { requireAdmin } from "../middlewares/auth";
 import { sendBookingNotification } from "../email";
-
+import {sendContactNotification} from "../email";
+import { logger } from "../lib/logger";
 const router = Router();
 
 router.get("/", requireAdmin, async (req, res) => {
@@ -69,6 +70,7 @@ router.post("/", async (req, res) => {
     guestEmail,
     guestPhone,
     roomType,
+  
     checkIn,
     checkOut,
     adults: totalAdults,
@@ -98,5 +100,45 @@ router.patch("/:id", requireAdmin, async (req, res) => {
   if (!booking) { res.status(404).json({ error: "Not found" }); return; }
   res.json({ ...booking, createdAt: booking.createdAt.toISOString() });
 });
+router.post("/contact", async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      phone,
+      subject,
+      message,
+    } = req.body;
 
+    if (!name || !email || !message) {
+      return res.status(400).json({
+        message: "Name, email and message are required",
+      });
+    }
+
+    await sendContactNotification({
+      name,
+      email,
+      phone,
+      subject,
+      message,
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: "Contact enquiry sent successfully",
+    });
+
+  } catch (error) {
+    logger.error(
+      { error },
+      "Contact enquiry failed"
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to send contact enquiry",
+    });
+  }
+});
 export default router;

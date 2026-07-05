@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useGetAttractions } from "@workspace/api-client-react";
-import { storageUrl } from "@/components/ui/image-upload";
+import {  imageUrl } from "@/components/ui/image-upload";
 import { Navigation, Clock, MapPin } from "lucide-react";
 import { PageBanner } from "./About";
 
@@ -46,7 +46,7 @@ export default function Attractions() {
                 >
                   <div className="w-36 md:w-44 flex-shrink-0 overflow-hidden">
                     {a.imageUrl ? (
-                      <img src={storageUrl(a.imageUrl)} alt={a.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={ imageUrl(a.imageUrl)} alt={a.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <img src={FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]} alt={a.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     )}

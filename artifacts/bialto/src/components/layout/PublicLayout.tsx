@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, MessageCircle, Mail, Facebook, Instagram, Twitter, Send, UserCircle2, LayoutDashboard, LogIn } from "lucide-react";
 import { useGetSettings } from "@workspace/api-client-react";
-import { storageUrl } from "@/components/ui/image-upload";
+ import { imageUrl } from "@/components/ui/image-upload";
 import logoGold from "@assets/d6456c74-df9e-4207-9c0b-528151a4c565_1780252264411_(1)_1780337521190.png";
 
 const navLinks = [
@@ -37,15 +37,15 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
   const { data: settings } = useGetSettings();
 
   const s = settings as any;
-  const logoSrc = s?.logoUrl ? storageUrl(s.logoUrl) : logoGold;
+  const logoSrc = s?.logoUrl ? imageUrl(s.logoUrl) : logoGold;
   const footerTagline = s?.footerTagline || "A luxury homestay in Kasauli offering premium rooms, scenic views, and warm hospitality. Your perfect mountain escape.";
   const contactAddress = s?.address || "Dochi Road, Kasauli, Himachal Pradesh, India";
-  const contactPhone = s?.phone || "+91 71176 02625";
+  const contactPhone = s?.phone || "+91  7717602625";
   const contactEmail = s?.email || "TheBialto@gmail.com";
   const facebookHref = s?.facebook || "#";
   const instagramHref = s?.instagram || "#";
   const twitterHref = s?.twitter || "#";
-  const whatsappNumber = (s?.whatsapp || "+917117602625").replace(/[^0-9]/g, "");
+  const whatsappNumber = (s?.whatsapp || "+91 7717602625").replace(/[^0-9]/g, "");
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {

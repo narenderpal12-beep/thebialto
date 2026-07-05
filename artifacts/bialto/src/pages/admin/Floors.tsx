@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { ImageUpload, MultiImageUpload, storageUrl } from "@/components/ui/image-upload";
+import { ImageUpload, MultiImageUpload,  imageUrl } from "@/components/ui/image-upload";
 import { Plus, Pencil, Trash2, Layers, BedDouble, CheckCircle2, XCircle, UtensilsCrossed, Images } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -107,7 +107,7 @@ export default function AdminFloors() {
               {/* Feature image */}
               <div className="relative h-44 overflow-hidden">
                 {floor.imageUrl ? (
-                  <img src={storageUrl(floor.imageUrl)} alt={floor.name} className="w-full h-full object-cover" />
+                  <img src={ imageUrl(floor.imageUrl)} alt={floor.name} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full bg-muted flex items-center justify-center">
                     <Layers className="w-12 h-12 text-muted-foreground/30" />

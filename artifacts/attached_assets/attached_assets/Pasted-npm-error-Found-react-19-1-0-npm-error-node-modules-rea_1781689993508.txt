@@ -1,0 +1,160 @@
+npm error Found: react@19.1.0
+npm error node_modules/react
+npm error   peer react@"^16.8.0 || ^17 || ^18 || ^19" from react-hook-form@7.79.0
+npm error   node_modules/react-hook-form
+npm error     peer react-hook-form@"^7.0.0" from @hookform/resolvers@3.10.0
+npm error     node_modules/@hookform/resolvers
+npm error       dev @hookform/resolvers@"^3.10.0" from @workspace/bialto@0.0.0
+npm error       artifacts/bialto
+npm error         @workspace/bialto@0.0.0
+npm error         node_modules/@workspace/bialto
+npm error       1 more (@workspace/mockup-sandbox)
+npm error     dev react-hook-form@"^7.55.0" from @workspace/bialto@0.0.0
+npm error     artifacts/bialto
+npm error       @workspace/bialto@0.0.0
+npm error       node_modules/@workspace/bialto
+npm error         workspace artifacts\bialto from the root project
+npm error     1 more (@workspace/mockup-sandbox)
+npm error   dev react@"19.1.0" from @workspace/bialto@0.0.0
+npm error   artifacts/bialto
+npm error     @workspace/bialto@0.0.0
+npm error     node_modules/@workspace/bialto
+npm error       workspace artifacts\bialto from the root project
+npm error   45 more (@workspace/mockup-sandbox, ...)
+npm error
+npm error Could not resolve dependency:
+npm error @uppy/react@"^5.0.0" from @workspace/object-storage-web@0.0.0
+npm error lib/object-storage-web
+npm error   @workspace/object-storage-web@0.0.0
+npm error   node_modules/@workspace/object-storage-web
+npm error     workspace lib\object-storage-web from the root project
+npm error     1 more (@workspace/bialto)
+npm error
+npm error Conflicting peer dependency: react@19.2.7
+npm error node_modules/react
+npm error   peer react@"^19.2.7" from react-dom@19.2.7
+npm error   node_modules/react-dom
+npm error     peer react-dom@"^18.0.0 || ^19.0.0" from @uppy/react@5.2.0
+npm error     node_modules/@uppy/react
+npm error       @uppy/react@"^5.0.0" from @workspace/object-storage-web@0.0.0
+npm error       lib/object-storage-web
+npm error         @workspace/object-storage-web@0.0.0
+npm error         node_modules/@workspace/object-storage-web
+npm error
+npm error Fix the upstream dependency conflict, or retry this command with --force or --legacy-peer-deps to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error D:\npm-cache\_logs\2026-06-17T09_50_03_862Z-eresolve-report.txt
+npm error A complete log of this run can be found in: D:\npm-cache\_logs\2026-06-17T09_50_03_862Z-debug-0.log
+PS D:\clients-backup\Attached-Assets-Explorer\Attached-Assets-Explorer> npm install         
+npm warn Unknown project config "auto-install-peers". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown project config "strict-peer-dependencies". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: @workspace/object-storage-web@0.0.0
+npm error Found: react@19.1.0
+npm error node_modules/react
+npm error   peer react@"^16.8.0 || ^17 || ^18 || ^19" from react-hook-form@7.79.0
+npm error   node_modules/react-hook-form
+npm error     peer react-hook-form@"^7.0.0" from @hookform/resolvers@3.10.0
+npm error     node_modules/@hookform/resolvers
+npm error       dev @hookform/resolvers@"^3.10.0" from @workspace/bialto@0.0.0
+npm error       artifacts/bialto
+npm error         @workspace/bialto@0.0.0
+npm error         node_modules/@workspace/bialto
+npm error       1 more (@workspace/mockup-sandbox)
+npm error     dev react-hook-form@"^7.55.0" from @workspace/bialto@0.0.0
+npm error     artifacts/bialto
+npm error       @workspace/bialto@0.0.0
+npm error       node_modules/@workspace/bialto
+npm error         workspace artifacts\bialto from the root project
+npm error     1 more (@workspace/mockup-sandbox)
+npm error   dev react@"19.1.0" from @workspace/bialto@0.0.0
+npm error   artifacts/bialto
+npm error     @workspace/bialto@0.0.0
+npm error     node_modules/@workspace/bialto
+npm error       workspace artifacts\bialto from the root project
+npm error   45 more (@workspace/mockup-sandbox, ...)
+npm error
+npm error Could not resolve dependency:
+npm error @uppy/react@"^5.0.0" from @workspace/object-storage-web@0.0.0
+npm error lib/object-storage-web
+npm error   @workspace/object-storage-web@0.0.0
+npm error   node_modules/@workspace/object-storage-web
+npm error     workspace lib\object-storage-web from the root project
+npm error     1 more (@workspace/bialto)
+npm error
+npm error Conflicting peer dependency: react@19.2.7
+npm error node_modules/react
+npm error   peer react@"^19.2.7" from react-dom@19.2.7
+npm error   node_modules/react-dom
+npm error     peer react-dom@"^18.0.0 || ^19.0.0" from @uppy/react@5.2.0
+npm error     node_modules/@uppy/react
+npm error       @uppy/react@"^5.0.0" from @workspace/object-storage-web@0.0.0
+npm error         @workspace/object-storage-web@0.0.0
+npm error         node_modules/@workspace/object-storage-web
+npm error
+npm error Fix the upstream dependency conflict, or retry this command with --force or --legacy-peer-deps to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error D:\npm-cache\_logs\2026-06-17T09_51_51_979Z-eresolve-report.txt
+npm error A complete log of this run can be found in: D:\npm-cache\_logs\2026-06-17T09_51_51_979Z-debug-0.log
+PS D:\clients-backup\Attached-Assets-Explorer\Attached-Assets-Explorer> npm install
+npm warn Unknown project config "auto-install-peers". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm warn Unknown project config "strict-peer-dependencies". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+npm error code ERESOLVE
+npm error ERESOLVE could not resolve
+npm error
+npm error While resolving: @workspace/object-storage-web@0.0.0
+npm error Found: react@19.1.0
+npm error node_modules/react
+npm error   peer react@"^16.8.0 || ^17 || ^18 || ^19" from react-hook-form@7.79.0
+npm error   node_modules/react-hook-form
+npm error     peer react-hook-form@"^7.0.0" from @hookform/resolvers@3.10.0
+npm error     node_modules/@hookform/resolvers
+npm error       dev @hookform/resolvers@"^3.10.0" from @workspace/bialto@0.0.0
+npm error       artifacts/bialto
+npm error         @workspace/bialto@0.0.0
+npm error         node_modules/@workspace/bialto
+npm error       1 more (@workspace/mockup-sandbox)
+npm error     dev react-hook-form@"^7.55.0" from @workspace/bialto@0.0.0
+npm error     artifacts/bialto
+npm error       @workspace/bialto@0.0.0
+npm error       node_modules/@workspace/bialto
+npm error         workspace artifacts\bialto from the root project
+npm error     1 more (@workspace/mockup-sandbox)
+npm error   dev react@"19.1.0" from @workspace/bialto@0.0.0
+npm error   artifacts/bialto
+npm error     @workspace/bialto@0.0.0
+npm error     node_modules/@workspace/bialto
+npm error       workspace artifacts\bialto from the root project
+npm error   45 more (@workspace/mockup-sandbox, ...)
+npm error
+npm error Could not resolve dependency:
+npm error @uppy/react@"^5.0.0" from @workspace/object-storage-web@0.0.0
+npm error lib/object-storage-web
+npm error   @workspace/object-storage-web@0.0.0
+npm error   node_modules/@workspace/object-storage-web
+npm error     workspace lib\object-storage-web from the root project
+npm error     1 more (@workspace/bialto)
+npm error
+npm error Conflicting peer dependency: react@19.2.7
+npm error node_modules/react
+npm error   peer react@"^19.2.7" from react-dom@19.2.7
+npm error   node_modules/react-dom
+npm error     peer react-dom@"^18.0.0 || ^19.0.0" from @uppy/react@5.2.0
+npm error     node_modules/@uppy/react
+npm error       @uppy/react@"^5.0.0" from @workspace/object-storage-web@0.0.0
+npm error       lib/object-storage-web
+npm error         @workspace/object-storage-web@0.0.0
+npm error         node_modules/@workspace/object-storage-web
+npm error
+npm error Fix the upstream dependency conflict, or retry this command with --force or --legacy-peer-deps to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error D:\npm-cache\_logs\2026-06-17T09_52_37_070Z-eresolve-report.txt
+npm error A complete log of this run can be found in: D:\npm-cache\_logs\2026-06-17T09_52_37_070Z-debug-0.log

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { useGetRooms, useGetFloors } from "@workspace/api-client-react";
-import { storageUrl } from "@/components/ui/image-upload";
+import {  imageUrl } from "@/components/ui/image-upload";
 import { BedDouble, Users, IndianRupee, Filter } from "lucide-react";
 import { PageBanner } from "./About";
 
@@ -58,7 +58,7 @@ export default function Rooms() {
                   <Link href={`/rooms/${room.id}`} className="group block bg-white shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
                     <div className="relative h-56 overflow-hidden">
                       {room.featureImageUrl ? (
-                        <img src={storageUrl(room.featureImageUrl)} alt={room.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-600" />
+                        <img src={ imageUrl(room.featureImageUrl)} alt={room.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-600" />
                       ) : (
                         <img src="/images/about-interior.png" alt={room.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-600" />
                       )}

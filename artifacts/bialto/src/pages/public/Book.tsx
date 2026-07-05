@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { useGetRooms, useGetFloors, useCreateBooking } from "@workspace/api-client-react";
-import { storageUrl } from "@/components/ui/image-upload";
+import {  imageUrl } from "@/components/ui/image-upload";
 import { IndianRupee, CalendarDays, Users, BedDouble, CheckCircle2, Layers, AlertTriangle, ChevronDown, UtensilsCrossed, Tag, X } from "lucide-react";
 import { PageBanner } from "./About";
 import { useToast } from "@/hooks/use-toast";
@@ -448,7 +448,7 @@ export default function Book() {
                 {mode === "room" && selectedRoom ? (
                   <>
                     {selectedRoom.featureImageUrl && (
-                      <img src={storageUrl(selectedRoom.featureImageUrl)} alt={selectedRoom.name} className="w-full h-28 object-cover mb-3" />
+                      <img src={ imageUrl(selectedRoom.featureImageUrl)} alt={selectedRoom.name} className="w-full h-28 object-cover mb-3" />
                     )}
                     <div className="font-serif text-[#1a2332] text-base mb-0.5">{selectedRoom.name}</div>
                     <div className="text-[#4a5568] text-xs mb-1">{selectedRoom.roomType}</div>
@@ -461,7 +461,7 @@ export default function Book() {
                 ) : mode === "floor" && selectedFloor ? (
                   <>
                     {selectedFloor.imageUrl && (
-                      <img src={storageUrl(selectedFloor.imageUrl)} alt={selectedFloor.name} className="w-full h-28 object-cover mb-3" />
+                      <img src={ imageUrl(selectedFloor.imageUrl)} alt={selectedFloor.name} className="w-full h-28 object-cover mb-3" />
                     )}
                     <div className="font-serif text-[#1a2332] text-base mb-0.5">{selectedFloor.name}</div>
                     <div className="text-[#4a5568] text-xs mb-1">Floor {selectedFloor.floorNumber} — Entire floor</div>

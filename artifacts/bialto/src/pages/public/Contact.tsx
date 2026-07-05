@@ -5,15 +5,76 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function Contact() {
   const { toast } = useToast();
+  const [sending, setSending] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
   const [sent, setSent] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setSent(true);
+  //   toast({ title: "Message sent!", description: "We'll get back to you within 24 hours." });
+  // };
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
-    toast({ title: "Message sent!", description: "We'll get back to you within 24 hours." });
+  
+    if (sending) return;
+  
+    setSending(true);
+  
+    try {
+      const response = await fetch("/api/bookings/contact", {
+        method: "POST",
+  
+        headers: {
+          "Content-Type": "application/json",
+        },
+  
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          subject: form.subject,
+          message: form.message,
+        }),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Failed to send message"
+        );
+      }
+  
+      setSent(true);
+  
+      toast({
+        title: "Message sent!",
+        description:
+          "We'll get back to you within 24 hours.",
+      });
+  
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+  
+    } catch (error) {
+      console.error("Contact error:", error);
+  
+      toast({
+        title: "Unable to send message",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+  
+    } finally {
+      setSending(false);
+    }
   };
-
   return (
     <div className="flex flex-col pt-[70px]">
       <PageBanner title="Contact Us" crumb="Contact" />
@@ -36,7 +97,7 @@ export default function Contact() {
             <div className="space-y-5">
               {[
                 { icon: MapPin, label: "Address", value: "Dochi Road, Kasauli, Himachal Pradesh 173204" },
-                { icon: Phone, label: "Phone / WhatsApp", value: "+91 71176 02625" },
+                { icon: Phone, label: "Phone / WhatsApp", value: "+91  7717602625" },
                 { icon: Mail, label: "Email", value: "TheBialto@gmail.com" },
                 { icon: Clock, label: "Office Hours", value: "9:00 AM – 8:00 PM (All Days)" },
               ].map(({ icon: Icon, label, value }) => (
@@ -53,7 +114,7 @@ export default function Contact() {
             </div>
 
             <a
-              href="https://wa.me/917117602625"
+              href="https://wa.me/91 7717602625"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 bg-[#25d366] text-white text-xs font-bold tracking-[0.12em] uppercase px-6 py-3.5 hover:bg-[#1fba58] transition-colors"
@@ -113,9 +174,13 @@ export default function Contact() {
                     className="w-full border border-gray-200 px-3 py-2.5 text-sm text-[#1a2332] focus:outline-none focus:border-primary resize-none bg-white"
                     placeholder="Tell us how we can help..." />
                 </div>
-                <button type="submit" className="w-full bg-[#1a2332] text-white text-xs font-bold tracking-[0.15em] uppercase py-4 hover:bg-[#1a2332]/80 transition-colors">
-                  Send Message
-                </button>
+                <button
+  type="submit"
+  disabled={sending}
+  className="w-full bg-[#1a2332] text-white text-xs font-bold tracking-[0.15em] uppercase py-4 hover:bg-[#1a2332]/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+>
+  {sending ? "Sending..." : "Send Message"}
+</button>
               </form>
             )}
           </div>

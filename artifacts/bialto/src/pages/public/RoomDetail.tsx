@@ -1,6 +1,6 @@
 import { useRoute, Link } from "wouter";
 import { useGetRoom } from "@workspace/api-client-react";
-import { storageUrl } from "@/components/ui/image-upload";
+import {  imageUrl } from "@/components/ui/image-upload";
 import { useState, useEffect, useCallback } from "react";
 import {
   Users, IndianRupee, CheckCircle2, BedDouble,
@@ -11,7 +11,7 @@ import {
 /** Resolves an image path to a displayable URL, skipping static public assets. */
 function imgSrc(path: string): string {
   if (path.startsWith("/images/") || path.startsWith("/api/")) return path;
-  return storageUrl(path);
+  return  imageUrl(path);
 }
 
 function Lightbox({

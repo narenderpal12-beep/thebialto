@@ -14,14 +14,17 @@ export function imageUrl(value: string): string {
 }
 
 /** @deprecated Use imageUrl() instead. Kept for backward compatibility. */
-export function storageUrl(objectPath: string): string {
-  return imageUrl(objectPath);
-}
+// export function  imageUrl(objectPath: string): string {
+//   return imageUrl(objectPath);
+// }
 
 async function uploadImageToDb(file: File): Promise<string> {
+  const token = localStorage.getItem("bialto_admin_token");
   const form = new FormData();
   form.append("file", file);
-  const res = await fetch("/api/images", { method: "POST", body: form });
+  const res = await fetch("/api/images", { method: "POST", 
+     headers: token ? { Authorization: `Bearer ${token}` } : {},
+     body: form });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error((err as any).error ?? "Upload failed");

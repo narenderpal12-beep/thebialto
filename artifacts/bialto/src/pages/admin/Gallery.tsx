@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { useUpload } from "@workspace/object-storage-web";
-import { storageUrl } from "@/components/ui/image-upload";
+import {  imageUrl } from "@/components/ui/image-upload";
 import { Plus, Trash2, Upload, Loader2, Image as ImageIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -92,7 +92,7 @@ export default function AdminGallery() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           {(images as any[]).map(img => (
             <div key={img.id} className="group relative aspect-square rounded-lg overflow-hidden border border-border bg-muted">
-              <img src={storageUrl(img.imageUrl)} alt={img.title} className="w-full h-full object-cover" />
+              <img src={ imageUrl(img.imageUrl)} alt={img.title} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-2">
                 <p className="text-white text-xs text-center line-clamp-2">{img.title}</p>
                 <Badge variant="secondary" className="text-xs">{CATEGORIES.find(c => c.value === img.category)?.label ?? img.category}</Badge>

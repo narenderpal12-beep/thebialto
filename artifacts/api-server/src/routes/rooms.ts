@@ -39,6 +39,8 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", requireAdmin, async (req, res) => {
+  try {
+    console.log("Request Body:", req.body);
   const { name, floorId, roomType, featureImageUrl, galleryImages, pricePerNight, adultCapacity, childCapacity, amenities, description, isAvailable, isPublished, isFeatured } = req.body;
   const [room] = await db.insert(roomsTable).values({
     name, floorId, roomType, featureImageUrl, galleryImages: galleryImages ?? [],
@@ -50,6 +52,22 @@ router.post("/", requireAdmin, async (req, res) => {
   }).returning();
   const [floor] = await db.select().from(floorsTable).where(eq(floorsTable.id, room.floorId));
   res.status(201).json({ ...room, floorName: floor?.name ?? null });
+}
+catch (err: any) {
+  console.error("ERROR OBJECT:", err);
+  console.error("MESSAGE:", err.message);
+  console.error("DETAIL:", err.detail);
+  console.error("CODE:", err.code);
+  console.error("CONSTRAINT:", err.constraint);
+  console.error("STACK:", err.stack);
+
+  res.status(500).json({
+    message: err.message,
+    detail: err.detail,
+    code: err.code,
+    constraint: err.constraint,
+  });
+}
 });
 
 router.get("/:id", async (req, res) => {

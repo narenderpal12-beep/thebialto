@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { useGetFloors } from "@workspace/api-client-react";
-import { storageUrl } from "@/components/ui/image-upload";
+import {  imageUrl } from "@/components/ui/image-upload";
 import { BedDouble, ArrowRight, Layers } from "lucide-react";
 import { PageBanner } from "./About";
 
@@ -42,7 +42,7 @@ export default function Floors() {
                   {/* Image */}
                   <div className={`relative h-64 md:h-72 overflow-hidden ${i % 2 === 1 ? "md:order-2" : ""}`}>
                     {floor.imageUrl ? (
-                      <img src={storageUrl(floor.imageUrl)} alt={floor.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+                      <img src={ imageUrl(floor.imageUrl)} alt={floor.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                     ) : (
                       <img
                         src={["/images/hero-1.png","/images/about-interior.png","/images/about-balcony.png","/images/hero-2.png","/images/about-interior.png"][i % 5]}

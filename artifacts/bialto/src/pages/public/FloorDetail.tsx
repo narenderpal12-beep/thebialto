@@ -1,6 +1,6 @@
 import { useRoute, Link } from "wouter";
 import { useGetFloor } from "@workspace/api-client-react";
-import { storageUrl } from "@/components/ui/image-upload";
+import {  imageUrl } from "@/components/ui/image-upload";
 import { useState } from "react";
 import { BedDouble, Users, IndianRupee, ArrowRight, UtensilsCrossed, CheckCircle2, XCircle, X, ChevronLeft, ChevronRight, Images, Bath, Utensils, LayoutList, BedSingle } from "lucide-react";
 import { PageBanner } from "./About";
@@ -43,7 +43,7 @@ export default function FloorDetail() {
       {/* Banner */}
       <div className="relative h-72 md:h-80 overflow-hidden flex items-end">
         {(floor as any).imageUrl ? (
-          <img src={storageUrl((floor as any).imageUrl)} alt={floor.name} className="absolute inset-0 w-full h-full object-cover" />
+          <img src={ imageUrl((floor as any).imageUrl)} alt={floor.name} className="absolute inset-0 w-full h-full object-cover" />
         ) : (
           <img src="/images/hero-1.png" alt={floor.name} className="absolute inset-0 w-full h-full object-cover" />
         )}
@@ -96,7 +96,7 @@ export default function FloorDetail() {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
               {gallery.map((path, i) => (
                 <button key={i} className="overflow-hidden aspect-video" onClick={() => setLightbox(i)}>
-                  <img src={storageUrl(path)} alt={`${floor.name} ${i + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                  <img src={ imageUrl(path)} alt={`${floor.name} ${i + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
                 </button>
               ))}
             </div>
@@ -135,7 +135,7 @@ export default function FloorDetail() {
                     {/* Main feature image */}
                     <div className="relative h-52 overflow-hidden">
                       <img
-                        src={room.featureImageUrl ? storageUrl(room.featureImageUrl) : "/images/about-interior.png"}
+                        src={room.featureImageUrl ?  imageUrl(room.featureImageUrl) : "/images/about-interior.png"}
                         alt={room.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-600"
                       />
@@ -162,7 +162,7 @@ export default function FloorDetail() {
                           <div key={label} className="relative h-[72px] overflow-hidden bg-[#f0ede8]">
                             {photoUrl ? (
                               <img
-                                src={storageUrl(photoUrl)}
+                                src={ imageUrl(photoUrl)}
                                 alt={label}
                                 className="w-full h-full object-cover group-hover:brightness-110 transition-all duration-300"
                               />
@@ -236,7 +236,7 @@ export default function FloorDetail() {
           <button className="absolute left-4 text-white/70 hover:text-white p-3" onClick={(e) => { e.stopPropagation(); setLightbox(Math.max(0, lightbox - 1)); }}>
             <ChevronLeft className="w-9 h-9" />
           </button>
-          <img src={storageUrl(gallery[lightbox])} alt="Gallery" className="max-h-[85vh] max-w-[90vw] object-contain" onClick={(e) => e.stopPropagation()} />
+          <img src={ imageUrl(gallery[lightbox])} alt="Gallery" className="max-h-[85vh] max-w-[90vw] object-contain" onClick={(e) => e.stopPropagation()} />
           <button className="absolute right-4 text-white/70 hover:text-white p-3" onClick={(e) => { e.stopPropagation(); setLightbox(Math.min(gallery.length - 1, lightbox + 1)); }}>
             <ChevronRight className="w-9 h-9" />
           </button>
